@@ -1,6 +1,8 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
-var app = require('./config/express');
+var express = require('./config/express.js'),
+app = express(),
+config = require('./config/config.js');
 
-app.listen(process.env.NODE_ENV);
-console.log("Server is listening on " + process.env.NODE_ENV);
+app.listen(config.serverPort);
+console.log("Server is listening on " + config.serverPort);
