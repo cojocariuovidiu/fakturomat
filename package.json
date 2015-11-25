@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/matszym/fakturomat/issues"
   },
-  "homepage": "https://github.com/matszym/fakturomat#readme"
+  "homepage": "https://github.com/matszym/fakturomat#readme",
+  "dependencies": {
+    "mongoose": "^4.2.7"
+  }
 }
