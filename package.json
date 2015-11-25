@@ -1,0 +1,23 @@
+{
+  "name": "fakturomat",
+  "version": "0.0.1",
+  "description": "MEAN stack application for generating invoices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matszym/fakturomat.git"
+  },
+  "keywords": [
+    "MEAN",
+    "invoice"
+  ],
+  "author": "Mateusz Szymański",
+  "license": "Unlicensed",
+  "bugs": {
+    "url": "https://github.com/matszym/fakturomat/issues"
+  },
+  "homepage": "https://github.com/matszym/fakturomat#readme"
+}
