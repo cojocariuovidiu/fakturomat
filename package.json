@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/matszym/fakturomat#readme",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "mongoose": "^4.2.7"
   }
 }
