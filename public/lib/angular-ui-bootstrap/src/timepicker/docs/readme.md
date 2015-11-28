@@ -2,7 +2,7 @@ A lightweight & configurable timepicker directive.
 
 ### Settings ###
 
-All settings can be provided as attributes in the `<timepicker>` or globally configured through the `timepickerConfig`.
+All settings can be provided as attributes in the `<uib-timepicker>` or globally configured through the `uibTimepickerConfig`.
 
  * `ng-model` <i class="glyphicon glyphicon-eye-open"></i>
  	:
@@ -50,3 +50,7 @@ All settings can be provided as attributes in the `<timepicker>` or globally con
  * `max`
     _(Defaults: undefined)_ :
      Maximum time a user can select
+
+ * `tabindex`
+    _(Defaults: 0)_ :
+     Sets tabindex for each control in timepicker

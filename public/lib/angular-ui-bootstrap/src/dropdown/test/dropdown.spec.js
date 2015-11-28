@@ -1,17 +1,18 @@
 describe('dropdownToggle', function() {
-  var $animate, $compile, $rootScope, $document, $templateCache, dropdownConfig, element, $browser;
+  var $animate, $compile, $rootScope, $document, $templateCache, dropdownConfig, element, $browser, $log;
 
   beforeEach(module('ngAnimateMock'));
   beforeEach(module('ui.bootstrap.dropdown'));
 
-  beforeEach(inject(function(_$animate_, _$compile_, _$rootScope_, _$document_, _$templateCache_, _dropdownConfig_, _$browser_) {
+  beforeEach(inject(function(_$animate_, _$compile_, _$rootScope_, _$document_, _$templateCache_, uibDropdownConfig, _$browser_, _$log_) {
     $animate = _$animate_;
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     $document = _$document_;
     $templateCache = _$templateCache_;
-    dropdownConfig = _dropdownConfig_;
+    dropdownConfig = uibDropdownConfig;
     $browser = _$browser_;
+    $log = _$log_;
   }));
 
   afterEach(function() {
@@ -20,7 +21,7 @@ describe('dropdownToggle', function() {
 
   var clickDropdownToggle = function(elm) {
     elm = elm || element;
-    elm.find('a[dropdown-toggle]').click();
+    elm.find('a[uib-dropdown-toggle]').click();
   };
 
   var triggerKeyDown = function (element, keyCode) {
@@ -35,7 +36,7 @@ describe('dropdownToggle', function() {
 
   describe('basic', function() {
     function dropdown() {
-      return $compile('<li dropdown><a href dropdown-toggle></a><ul><li><a href>Hello</a></li></ul></li>')($rootScope);
+      return $compile('<li uib-dropdown><a href uib-dropdown-toggle></a><ul><li><a href>Hello</a></li></ul></li>')($rootScope);
     }
 
     beforeEach(function() {
@@ -106,20 +107,20 @@ describe('dropdownToggle', function() {
     });
 
     it('should not toggle if the element has `disabled` class', function() {
-      var elm = $compile('<li dropdown><a class="disabled" dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
+      var elm = $compile('<li uib-dropdown><a class="disabled" uib-dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
       clickDropdownToggle( elm );
       expect(elm.hasClass(dropdownConfig.openClass)).toBe(false);
     });
 
     it('should not toggle if the element is disabled', function() {
-      var elm = $compile('<li dropdown><button disabled="disabled" dropdown-toggle></button><ul><li>Hello</li></ul></li>')($rootScope);
+      var elm = $compile('<li uib-dropdown><button disabled="disabled" uib-dropdown-toggle></button><ul><li>Hello</li></ul></li>')($rootScope);
       elm.find('button').click();
       expect(elm.hasClass(dropdownConfig.openClass)).toBe(false);
     });
 
     it('should not toggle if the element has `ng-disabled` as true', function() {
       $rootScope.isdisabled = true;
-      var elm = $compile('<li dropdown><div ng-disabled="isdisabled" dropdown-toggle></div><ul><li>Hello</li></ul></li>')($rootScope);
+      var elm = $compile('<li uib-dropdown><div ng-disabled="isdisabled" uib-dropdown-toggle></div><ul><li>Hello</li></ul></li>')($rootScope);
       $rootScope.$digest();
       elm.find('div').click();
       expect(elm.hasClass(dropdownConfig.openClass)).toBe(false);
@@ -132,7 +133,7 @@ describe('dropdownToggle', function() {
 
     it('should unbind events on scope destroy', function() {
       var $scope = $rootScope.$new();
-      var elm = $compile('<li dropdown><button ng-disabled="isdisabled" dropdown-toggle></button><ul><li>Hello</li></ul></li>')($scope);
+      var elm = $compile('<li uib-dropdown><button ng-disabled="isdisabled" uib-dropdown-toggle></button><ul><li>Hello</li></ul></li>')($scope);
       $scope.$digest();
 
       var buttonEl = elm.find('button');
@@ -189,9 +190,9 @@ describe('dropdownToggle', function() {
 
   describe('using dropdownMenuTemplate', function() {
     function dropdown() {
-      $templateCache.put('custom.html', '<ul class="dropdown-menu"><li>Item 1</li></ul>');
+      $templateCache.put('custom.html', '<ul class="uib-dropdown-menu"><li>Item 1</li></ul>');
 
-      return $compile('<li dropdown><a href dropdown-toggle></a><ul class="dropdown-menu" template-url="custom.html"></ul></li>')($rootScope);
+      return $compile('<li uib-dropdown><a href uib-dropdown-toggle></a><ul class="uib-dropdown-menu" template-url="custom.html"></ul></li>')($rootScope);
     }
 
     beforeEach(function() {
@@ -200,20 +201,20 @@ describe('dropdownToggle', function() {
 
     it('should apply custom template for dropdown menu', function() {
       element.find('a').click();
-      expect(element.find('ul.dropdown-menu').eq(0).find('li').eq(0).text()).toEqual('Item 1');
+      expect(element.find('ul.uib-dropdown-menu').eq(0).find('li').eq(0).text()).toEqual('Item 1');
     });
 
     it('should clear ul when dropdown menu is closed', function() {
       element.find('a').click();
-      expect(element.find('ul.dropdown-menu').eq(0).find('li').eq(0).text()).toEqual('Item 1');
+      expect(element.find('ul.uib-dropdown-menu').eq(0).find('li').eq(0).text()).toEqual('Item 1');
       element.find('a').click();
-      expect(element.find('ul.dropdown-menu').eq(0).find('li').length).toEqual(0);
+      expect(element.find('ul.uib-dropdown-menu').eq(0).find('li').length).toEqual(0);
     });
   });
 
   describe('using dropdown-append-to-body', function() {
     function dropdown() {
-      return $compile('<li dropdown dropdown-append-to-body><a href dropdown-toggle></a><ul class="dropdown-menu" id="dropdown-menu"><li><a href>Hello On Body</a></li></ul></li>')($rootScope);
+      return $compile('<li uib-dropdown dropdown-append-to-body><a href uib-dropdown-toggle></a><ul class="uib-dropdown-menu" id="dropdown-menu"><li><a href>Hello On Body</a></li></ul></li>')($rootScope);
     }
 
     beforeEach(function() {
@@ -224,41 +225,22 @@ describe('dropdownToggle', function() {
       expect($document.find('#dropdown-menu').parent()[0]).toBe($document.find('body')[0]);
     });
 
-    it('adds the dropdown class to the body', function() {
-      expect($document.find('body').hasClass('dropdown')).toBe(true);
-    });
-
     it('removes the menu when the dropdown is removed', function() {
       element.remove();
       $rootScope.$digest();
       expect($document.find('#dropdown-menu').length).toEqual(0);
     });
-
-    it('toggles the open class on body', function() {
-      var body = $document.find('body');
-
-      expect(body.hasClass('open')).toBe(false);
-
-      element.find('[dropdown-toggle]').click();
-
-      expect(body.hasClass('open')).toBe(true);
-
-      element.find('[dropdown-toggle]').click();
-
-      expect(body.hasClass('open')).toBe(false);
-    });
   });
 
   describe('integration with $location URL rewriting', function() {
     function dropdown() {
-
       // Simulate URL rewriting behavior
       $document.on('click', 'a[href="#something"]', function() {
         $rootScope.$broadcast('$locationChangeSuccess');
         $rootScope.$apply();
       });
 
-      return $compile('<li dropdown><a href dropdown-toggle></a>' +
+      return $compile('<li uib-dropdown><a href uib-dropdown-toggle></a>' +
         '<ul><li><a href="#something">Hello</a></li></ul></li>')($rootScope);
     }
 
@@ -279,7 +261,7 @@ describe('dropdownToggle', function() {
   describe('without trigger', function() {
     beforeEach(function() {
       $rootScope.isopen = true;
-      element = $compile('<li dropdown is-open="isopen"><ul><li>Hello</li></ul></li>')($rootScope);
+      element = $compile('<li uib-dropdown is-open="isopen"><ul><li>Hello</li></ul></li>')($rootScope);
       $rootScope.$digest();
     });
 
@@ -297,7 +279,7 @@ describe('dropdownToggle', function() {
   describe('`is-open`', function() {
     beforeEach(function() {
       $rootScope.isopen = true;
-      element = $compile('<li dropdown is-open="isopen"><a href dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
+      element = $compile('<li uib-dropdown is-open="isopen"><a href uib-dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
       $rootScope.$digest();
     });
 
@@ -332,7 +314,7 @@ describe('dropdownToggle', function() {
     beforeEach(function() {
       $rootScope.toggleHandler = jasmine.createSpy('toggleHandler');
       $rootScope.isopen = false;
-      element = $compile('<li dropdown on-toggle="toggleHandler(open)"  is-open="isopen"><a dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
+      element = $compile('<li uib-dropdown on-toggle="toggleHandler(open)"  is-open="isopen"><a uib-dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
       $rootScope.$digest();
     });
 
@@ -359,7 +341,7 @@ describe('dropdownToggle', function() {
     beforeEach(function() {
       $rootScope.toggleHandler = jasmine.createSpy('toggleHandler');
       $rootScope.isopen = true;
-      element = $compile('<li dropdown on-toggle="toggleHandler(open)" is-open="isopen"><a dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
+      element = $compile('<li uib-dropdown on-toggle="toggleHandler(open)" is-open="isopen"><a uib-dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
       $rootScope.$digest();
     });
 
@@ -387,7 +369,7 @@ describe('dropdownToggle', function() {
   describe('`on-toggle` without is-open', function() {
     beforeEach(function() {
       $rootScope.toggleHandler = jasmine.createSpy('toggleHandler');
-      element = $compile('<li dropdown on-toggle="toggleHandler(open)"><a dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
+      element = $compile('<li uib-dropdown on-toggle="toggleHandler(open)"><a uib-dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
       $rootScope.$digest();
     });
 
@@ -412,9 +394,9 @@ describe('dropdownToggle', function() {
 
   describe('`auto-close` option', function() {
     function dropdown(autoClose) {
-      return $compile('<li dropdown ' +
+      return $compile('<li uib-dropdown ' +
         (autoClose === void 0 ? '' : 'auto-close="'+autoClose+'"') +
-        '><a href dropdown-toggle></a><ul><li><a href>Hello</a></li></ul></li>')($rootScope);
+        '><a href uib-dropdown-toggle></a><ul><li><a href>Hello</a></li></ul></li>')($rootScope);
     }
 
     it('should close on document click if no auto-close is specified', function() {
@@ -453,20 +435,19 @@ describe('dropdownToggle', function() {
       });
 
       it('should work with dropdown-append-to-body', function() {
-        element = $compile('<li dropdown dropdown-append-to-body auto-close="outsideClick"><a href dropdown-toggle></a><ul class="dropdown-menu" id="dropdown-menu"><li><a href>Hello On Body</a></li></ul></li>')($rootScope);
+        element = $compile('<li uib-dropdown dropdown-append-to-body auto-close="outsideClick"><a href uib-dropdown-toggle></a><ul class="uib-dropdown-menu" id="dropdown-menu"><li><a href>Hello On Body</a></li></ul></li>')($rootScope);
         clickDropdownToggle();
-        var body = $document.find('body');
-        expect(body.hasClass(dropdownConfig.openClass)).toBe(true);
+        expect(element.hasClass(dropdownConfig.openClass)).toBe(true);
         $document.find('#dropdown-menu').find('li').eq(0).trigger('click');
-        expect(body.hasClass(dropdownConfig.openClass)).toBe(true);
+        expect(element.hasClass(dropdownConfig.openClass)).toBe(true);
         $document.click();
-        expect(body.hasClass(dropdownConfig.openClass)).toBe(false);
+        expect(element.hasClass(dropdownConfig.openClass)).toBe(false);
       });
     });
 
     it('control with is-open', function() {
       $rootScope.isopen = true;
-      element = $compile('<li dropdown is-open="isopen" auto-close="disabled"><a href dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
+      element = $compile('<li uib-dropdown is-open="isopen" auto-close="disabled"><a href uib-dropdown-toggle></a><ul><li>Hello</li></ul></li>')($rootScope);
       $rootScope.$digest();
 
       expect(element.hasClass(dropdownConfig.openClass)).toBe(true);
@@ -522,7 +503,7 @@ describe('dropdownToggle', function() {
 
   describe('`keyboard-nav` option', function() {
     function dropdown() {
-      return $compile('<li dropdown keyboard-nav><a href dropdown-toggle></a><ul><li><a href>Hello</a></li><li><a href>Hello Again</a></li></ul></li>')($rootScope);
+      return $compile('<li uib-dropdown uib-keyboard-nav><a href uib-dropdown-toggle></a><ul><li><a href>Hello</a></li><li><a href>Hello Again</a></li></ul></li>')($rootScope);
     }
     beforeEach(function() {
       element = dropdown();
@@ -561,7 +542,7 @@ describe('dropdownToggle', function() {
 
   describe('`keyboard-nav` option', function() {
     function dropdown() {
-      return $compile('<li dropdown keyboard-nav><a href dropdown-toggle></a><ul><li><a href>Hello</a></li><li><a href>Hello Again</a></li></ul></li>')($rootScope);
+      return $compile('<li uib-dropdown uib-keyboard-nav><a href uib-dropdown-toggle></a><ul><li><a href>Hello</a></li><li><a href>Hello Again</a></li></ul></li>')($rootScope);
     }
     beforeEach(function() {
       element = dropdown();
@@ -674,7 +655,7 @@ describe('dropdownToggle', function() {
 
   describe('`keyboard-nav` option with `dropdown-append-to-body` option', function() {
     function dropdown() {
-      return $compile('<li dropdown dropdown-append-to-body keyboard-nav><a href dropdown-toggle></a><ul class="dropdown-menu" id="dropdown-menu"><li><a href>Hello On Body</a></li><li><a href>Hello Again</a></li></ul></li>')($rootScope);
+      return $compile('<li uib-dropdown dropdown-append-to-body uib-keyboard-nav><a href uib-dropdown-toggle></a><ul class="uib-dropdown-menu" id="dropdown-menu"><li><a href>Hello On Body</a></li><li><a href>Hello Again</a></li></ul></li>')($rootScope);
     }
 
     beforeEach(function() {
@@ -686,7 +667,7 @@ describe('dropdownToggle', function() {
 
       triggerKeyDown(element, 40);
 
-      expect($document.find('body').hasClass(dropdownConfig.openClass)).toBe(true);
+      expect(element.hasClass(dropdownConfig.openClass)).toBe(true);
       var focusEl = $document.find('ul').eq(0).find('a');
       expect(isFocused(focusEl)).toBe(true);
     });
@@ -696,11 +677,51 @@ describe('dropdownToggle', function() {
       triggerKeyDown(element, 40);
       triggerKeyDown(element, 40);
 
-      expect($document.find('body').hasClass(dropdownConfig.openClass)).toBe(true);
+      expect(element.hasClass(dropdownConfig.openClass)).toBe(true);
       var elem1 = $document.find('ul');
       var elem2 = elem1.find('a');
       var focusEl = $document.find('ul').eq(0).find('a').eq(1);
       expect(isFocused(focusEl)).toBe(true);
     });
   });
+});
+
+/* Deprecation tests below */
+
+describe('dropdown deprecation', function() {
+  beforeEach(module('ngAnimateMock'));
+  beforeEach(module('ui.bootstrap.dropdown'));
+  
+  it('should suppress warning', function() {
+    module(function($provide) {
+      $provide.value('$dropdownSuppressWarning', true);
+    });
+    
+    inject(function($compile, $log, $rootScope) {
+      spyOn($log, 'warn');
+      var element = $compile('<li dropdown><a href dropdown-toggle></a><ul><li><a href>Hello</a></li></ul></li>')($rootScope);
+      $rootScope.$digest();
+      expect($log.warn.calls.count()).toBe(0);
+    });
+  });
+  
+  it('should give warning by default', inject(function($compile, $log, $rootScope) {
+    spyOn($log, 'warn');
+    var element = $compile('<li dropdown><a href></a><ul><li><a href dropdown-toggle>Hello</a></li></ul></li>')($rootScope);
+    $rootScope.$digest();
+    expect($log.warn.calls.count()).toBe(3);
+    expect($log.warn.calls.argsFor(0)).toEqual(['DropdownController is now deprecated. Use UibDropdownController instead.']);
+    expect($log.warn.calls.argsFor(1)).toEqual(['dropdown-toggle is now deprecated. Use uib-dropdown-toggle instead.']);
+    expect($log.warn.calls.argsFor(2)).toEqual(['dropdown is now deprecated. Use uib-dropdown instead.']);
+  }));
+  
+  it('should give warning by default for keyboardNav', inject(function($compile, $log, $rootScope) {
+    spyOn($log, 'warn');
+    var element = $compile('<li dropdown keyboard-nav><a href ></a><ul><li><a href>Hello</a></li></ul></li>')($rootScope);
+    $rootScope.$digest();
+    expect($log.warn.calls.count()).toBe(3);
+    expect($log.warn.calls.argsFor(0)).toEqual(['DropdownController is now deprecated. Use UibDropdownController instead.']);
+    expect($log.warn.calls.argsFor(1)).toEqual(['keyboard-nav is now deprecated. Use uib-keyboard-nav instead.']);
+    expect($log.warn.calls.argsFor(2)).toEqual(['dropdown is now deprecated. Use uib-dropdown instead.']);
+  }));
 });

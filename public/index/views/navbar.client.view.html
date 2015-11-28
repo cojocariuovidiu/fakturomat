@@ -1,17 +1,17 @@
-<nav class="navbar navbar-inverse navbar-static-top">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
    <div class="container">
       <div class="navbar-header">
          <a href="localhost:8000" class="navbar-brand">Fakturomat</a>
-          <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+          <button class="navbar-toggle" ng-click="navIsCollapsed = !navIsCollapsed">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
          </button>
       </div>
-      <div class="collapse navbar-collapse navHeaderCollapse">
+      <div class="collapse navbar-collapse navHeaderCollapse" uib-collapse="navIsCollapsed" style="overflow: hidden;">
          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/" ng-click="showForm('index/views/signup-form.client.view.html')">Signin</a></li>
-            <li><a href="#/">Signup</a></li>
+            <li><a href="#/" data-ng-click="showForm('index/views/authenticate-form.client.view.html', 'Signin')">Signin</a></li>
+            <li><a href="#/" data-ng-click="showForm('index/views/authenticate-form.client.view.html', 'Signup')">Signup</a></li>
             <li><a href="#/">Contact</a></li>
          </ul>
       </div>
