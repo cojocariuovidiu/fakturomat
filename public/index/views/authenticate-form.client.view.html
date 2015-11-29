@@ -1,26 +1,19 @@
 <div class="modal-content">
-
-      
    <div class="modal-header">
-      <h1 class="text text-center" data-ng-bind="tab"></h1>
+      <h1 class="text text-center">{{ navCtrl.getCurrentTab().title }}</h1>
    </div>
-
    <div class="modal-body">
-      <uib-tabset>
-         <uib-tab heading="Signin" active="tab === 'Signin'">
-            <form action="">
-               <input type="text" ng-model="signin.username">
-               <input type="password" ng-model="signin.password">
-            </form>
+      
+      <uib-tabset justified="true">
+         <uib-tab ng-repeat='tab in navCtrl.tabs' heading="{{tab.title}}" active="tab.active">
+            <data-ng-include src="tab.contentUrl"></data-ng-include>
          </uib-tab>
-         <uib-tab heading="Signup" active="tab === 'Signup'">
-            Signup
-         </uib-tab>
-      <uib-tabset>
+
+      </uib-tabset>
    </div>
 
    <div class="modal-footer">
-      <button class="btn btn-success" ng-bind="tab"></button>
+      <button class="btn btn-success" data-ng-bind="navCtrl.getCurrentTab().title" data-ng-click="navCtrl.getCurrentTab().processForm()"></button>
       <button class="btn btn-warning" data-ng-click="closeForm()">Cancel</button>
    </div>
 </div>

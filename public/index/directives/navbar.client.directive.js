@@ -1,17 +1,54 @@
-angular.module('fakturomat').directive('navbar', function(){
+angular.module('fakturomat').directive('navbar', ['$rootScope', function($scope){
    return {
       restrict: 'E',
       templateUrl: 'index/views/navbar.client.view.html',
-      controller: ['$scope', '$uibModal', function($scope, $uibModal){
-         var modalForm;
+      controllerAs: 'navCtrl',
+      controller: ['$scope', '$uibModal', '$templateRequest', function($scope, $uibModal, $templateRequest){
          $scope.navIsCollapsed = true;
-         $scope.tab = 'Signin';
-         $scope.currentTab = function(){}
-         $scope.showForm = function(path, tab){
-            $scope.tab = tab;
+         var NavController = this;
 
-            modalForm = $uibModal.open({
-               templateUrl: path,
+         this.tabs = [
+            {
+               title: 'Signin',
+               active: false,
+               contentUrl: 'index/views/signin-form.client.view.html',
+               processForm: function(){
+                  window.alert('Sommone wants to sign in, huh?');
+               }
+            },
+            {
+               title: 'Signup',
+               active: false,
+               contentUrl: 'index/views/signup-form.client.view.html',
+               processForm: function(){
+                  window.alert('Hello signerup :D');
+               }
+            } 
+         ];
+
+         this.getCurrentTab = function(){
+            var result = this.tabs.filter(function(val){
+               return val.active;
+            });
+
+            return result.pop();
+         }
+         $scope.showForm = function(tab){
+            // tab is index
+            NavController.tabs[tab].active = true;
+            //set false to every other tab - filter, then change val
+            NavController.tabs
+               .filter(function(val, index){ 
+                  return tab !== index; 
+               })
+               .forEach(function(val){
+                  val.active = false;
+               });
+
+            console.log(NavController.tabs);
+
+            $uibModal.open({
+               templateUrl: 'index/views/authenticate-form.client.view.html',
                animation: true,
                scope: $scope,
                controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance){
@@ -23,4 +60,4 @@ angular.module('fakturomat').directive('navbar', function(){
          };
       }]
    };
-});
+}]);
