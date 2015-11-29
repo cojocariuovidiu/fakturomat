@@ -1,4 +1,4 @@
-angular.module('fakturomat').directive('navbar', ['$rootScope', function($scope){
+angular.module('fakturomat').directive('navbar', function(){
    return {
       restrict: 'E',
       templateUrl: 'index/views/navbar.client.view.html',
@@ -45,8 +45,6 @@ angular.module('fakturomat').directive('navbar', ['$rootScope', function($scope)
                   val.active = false;
                });
 
-            console.log(NavController.tabs);
-
             $uibModal.open({
                templateUrl: 'index/views/authenticate-form.client.view.html',
                animation: true,
@@ -60,4 +58,4 @@ angular.module('fakturomat').directive('navbar', ['$rootScope', function($scope)
          };
       }]
    };
-}]);
+});
