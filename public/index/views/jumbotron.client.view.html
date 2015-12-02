@@ -1,6 +1,10 @@
 <div class="container">
-   <div class="jumbotron">
+   <div data-ng-hide="user" class="jumbotron">
       <h1>Start generating invoices now!</h1>
       <p>Log in with social media account of your choice and you are good to go! Create customers profiles for repetative use, free for ever!</p>
+   </div>
+   <div data-ng-show="user" class="jumbotron">
+      <h1>Welcome in your dashboard.</h1>
+      <p>You are now authenticated, and you can start working on invoices.</p>
    </div>
 </div>

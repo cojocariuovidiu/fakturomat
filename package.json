@@ -22,7 +22,11 @@
   "homepage": "https://github.com/matszym/fakturomat#readme",
   "dependencies": {
     "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.1",
     "ejs": "^2.3.4",
-    "mongoose": "^4.2.7"
+    "express-session": "^1.12.1",
+    "mongoose": "^4.2.7",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
   }
 }

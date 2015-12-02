@@ -1,15 +1,18 @@
 var mongoose = require('mongoose'),
 Schema = mongoose.Schema,
-bcrytp =  require('bcrypt');
+bcrypt =  require('bcrypt'),
+SALT_WORK_FACTOR = 14;
 
 var UserSchema = new Schema({
    firstName: {
       type: String,
-      trim: true
+      trim: true,
+      default: ''
    },
    lastName: {
       type: String,
-      trim: true
+      trim: true,
+      default: ''
    },
    email: {
       type: String,
@@ -26,7 +29,7 @@ var UserSchema = new Schema({
    created: {
       type: Date,
       default: Date.now
-   }
+   },
    password: {
       type: String,
       validate: [
@@ -34,7 +37,9 @@ var UserSchema = new Schema({
             return pass.length >= 6
          },
          'Password too short.'
-         ]
+         ],
+      required: true
+
    }
 });
 UserSchema.virtual('fullName')
@@ -46,18 +51,44 @@ UserSchema.virtual('fullName')
       this.firstName = nameArr[0] || '';
       this.lastName = nameArr[1] || '';
    });
-UserSchema.methods.hashPassword = function(pass){
-   return bcrypt.hash(pass, 14, function(err, hash){
+
+UserSchema.pre('save', function(next){
+   console.log('Hashing proces started')
+   var user = this;
+
+   if(!user.isModified('password')) 
+      return next()
+   
+   bcrypt.hash(user.password, SALT_WORK_FACTOR, function(err, hash){
       if(err)
          throw next(err);
-      else
-         return hash;
+      else{
+         console.log("Returning hash");      
+         user.password = hash;
+         next();
+      }
    });
+})
+UserSchema.methods.authenticate = function(pass, error, success){
+   if(!this.password){
+      console.log("User doesnt have password set");
+      return error();
+   }
+   else{
+      bcrypt.compare(pass, this.password, function(err, res){
+         if(err){
+            console.log('error');
+            error();
+         }
+         if(res){
+            console.log("Passwords match");
+            success();
+         } else {
+            console.log("Passwords doesnt match");
+            error();
+         }
+      });
+   }
 };
-UserSchema.methods.authenticate = function(pass){
-   return this.password ? bcrypt.compare(pass, this.password, function(err, res){
-      return res;
-   }) : false;
-}
 
 mongoose.model('User', UserSchema);

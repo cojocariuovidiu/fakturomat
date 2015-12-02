@@ -8,15 +8,15 @@
 </div>
 <h2 class="text-center">... or use your loggin and password!</h2>
 <div class="row">
-   <form ng-submit class="col-sm-8 col-sm-offset-2" ng-submit="signin()">
+   <form ng-keyup="$event.keyCode === 13 &amp;&amp; navCtrl.getCurrentTab().processForm()" class="col-sm-8 col-sm-offset-2">
       <br>
       <div class="form-group">
          <label for="username">Username</label>
-         <input class="form-control" type="text" ng-model="signin.username" id="username">
+         <input class="form-control" type="text" ng-model="signinUser.username" id="username">
       </div>
       <div class="form-group">
          <label for="password">Password</label>
-         <input class="form-control" type="password" ng-model="signin.password" id="username">
+         <input class="form-control" type="password" ng-model="signinUser.password" id="username">
       </div>
    </form>
 </div>

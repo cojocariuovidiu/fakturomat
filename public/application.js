@@ -3,7 +3,9 @@ app = angular.module(appName, [
       'ngRoute',
       'ui.bootstrap',
       'ngAnimate',
-      'index'
+      'ngCookies',
+      'index',
+      'ngResource'
    ]);
 
 angular.element(document).ready(function(){

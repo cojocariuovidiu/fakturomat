@@ -2,7 +2,8 @@ var port = 8000,
   domain = 'http://localhost';
 
 module.exports = {
-   db: 'mongodb://localhost/faturomat',
+   db: 'mongodb://localhost/fakturomat',
+   sessionSecret: 'Very secret cookie secret thingy (thats how pros call that thingy!)',
    serverPort: port,
    domain: domain
 };

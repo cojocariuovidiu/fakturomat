@@ -10,8 +10,10 @@
       </div>
       <div class="collapse navbar-collapse navHeaderCollapse" uib-collapse="navIsCollapsed" style="overflow: hidden;">
          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/" data-ng-click="showForm(0)">Signin</a></li>
-            <li><a href="#/" data-ng-click="showForm(1)">Signup</a></li>
+            <li data-ng-hide="user"><a href="#/" data-ng-click="showForm(0)">Signin</a></li>
+            <li data-ng-hide="user"><a href="#/" data-ng-click="showForm(1)">Signup</a></li>
+            <li data-ng-show="user"><a href="#/">Hello, {{user.firstName || user.username}}!</a></li>
+            <li data-ng-show="user"><a href="#/" data-ng-click="logout()">Logout</a></li>
             <li><a href="#/">Contact</a></li>
          </ul>
       </div>
