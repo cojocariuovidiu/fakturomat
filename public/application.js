@@ -5,6 +5,7 @@ app = angular.module(appName, [
       'ngAnimate',
       'ngCookies',
       'index',
+      'messages',
       'ngResource'
    ]);
 

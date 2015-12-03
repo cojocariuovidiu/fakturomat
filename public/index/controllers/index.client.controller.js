@@ -3,7 +3,18 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
          var NavController = this;
          $scope.signupUser = {};
          $scope.signinUser = {};
-         $scope.messages = [];
+         $scope.mainMessages = [{
+            type: 'success',
+            content: 'Test message'
+         }];
+         $scope.signupMessages = [{
+            type: 'danger',
+            content: 'There was an error'
+         }];
+         $scope.signinMessages = [{
+            type: 'info',
+            content: 'Wrong password'
+         }]
 
          var user = $cookies.getObject('user');
          $scope.user = user ? user : null;
@@ -35,7 +46,7 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
                      }, function(err){
                         $scope.errors.push(err);
                      });
-               }   
+               }
             }
          ];
          $scope.logout = function(){
