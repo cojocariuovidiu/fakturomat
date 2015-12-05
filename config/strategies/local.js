@@ -12,11 +12,16 @@ module.exports = function(){
             return done(null, false, { message: 'Unknown User'});
          
          user.authenticate(password, function(){
-            return done(null, false, { message: 'Invalid Password'});
+            return done(null, false, { message: {
+               type: 'danger',
+               content: 'User Credentials doesn&quot;t match with existing ones'
+            }});
          }, function(){
-            return done(null, user);
-         });  
-/*         user.authenticate(password, done); */
+            return done(null, user, {message: {
+               type: 'success',
+               content: 'Welcome, you are now logged in'
+            }});
+         });
       })
    }))
 }

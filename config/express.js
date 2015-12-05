@@ -4,6 +4,7 @@ express = require('express');
 passport = require('passport'),
 session = require('express-session'),
 bodyParser = require('body-parser'),
+morgan = require('morgan');
 
 module.exports = function(){
    var app = express();
@@ -15,7 +16,8 @@ module.exports = function(){
    app.use(bodyParser({
       extended: true
    }));
-
+   //if(process.NODE_ENV === "development")
+      app.use(morgan('dev'));
    app.use(session({
       secret: config.sessionSecret,
       name: 'fakturomat',

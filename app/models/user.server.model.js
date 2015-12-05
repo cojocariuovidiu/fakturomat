@@ -68,23 +68,22 @@ UserSchema.pre('save', function(next){
          next();
       }
    });
-})
+});
 UserSchema.methods.authenticate = function(pass, error, success){
    if(!this.password){
       console.log("User doesnt have password set");
-      return error();
+      return error(err);
    }
    else{
       bcrypt.compare(pass, this.password, function(err, res){
          if(err){
-            console.log('error');
+            console.log(err);
             error();
          }
+         // if res is true, passwords match
          if(res){
-            console.log("Passwords match");
             success();
          } else {
-            console.log("Passwords doesnt match");
             error();
          }
       });

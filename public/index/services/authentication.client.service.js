@@ -13,9 +13,8 @@ angular.module('index').service('Authentication', ['AuthApi', '$q', function(Aut
 
       user.$save(function(response){
          deffered.resolve(user);
-         this.user = user;
       }, function(errorResponse){
-         deffered.reject(errorResponse.data.message);
+         deffered.reject(errorResponse.data);
       });
 
       return deffered.promise;
@@ -31,11 +30,21 @@ angular.module('index').service('Authentication', ['AuthApi', '$q', function(Aut
 
       user.$save(function(response){
          deffered.resolve(user);
-         this.user = user;
       }, function(errorResponse){
-         deffered.reject(errorResponse.data.message);
+         deffered.reject(errorResponse.data);
       });
       return deffered.promise;
    }
-   this.user = window.user;
+   this.signout = function(){
+      var user = new AuthApi.signout(),
+      deffered = $q.defer();
+
+      user.$save(function(response){
+         deffered.resolve(response)
+      }, function(err){
+         deffered.reject(err.data);
+      });
+
+      return deffered.promise;
+   }
 }]);
