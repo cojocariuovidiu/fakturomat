@@ -1,0 +1,26 @@
+<div data-ng-if="menu.isVisible('createCompanyProfile')" data-ng-controller='CompanyProfileController'>
+   <h2>Create Company Profile</h2>
+   <form class="clearfix" data-ng-submit="createCompanyProfile()"> 
+      <div class="form-group">
+         <label for="company-name">Company Name:</label>
+         <input type="text" id="company-name" data-ng-model="newProfile.name" class="form-control">
+      </div>
+      <div class="form-group">
+         <label form="street">NIP</label>
+         <input type="text" id="nip" class="form-control" data-ng-model="newProfile.nip">
+      </div>
+      <div class="form-group">
+         <label form="street">Street:</label>
+         <input type="text" id="street" class="form-control" data-ng-model="newProfile.street">
+      </div>
+      <div class="form-group">
+         <label form="street">ZIP code</label>
+         <input type="text" id="street" class="form-control" data-ng-model="newProfile.zip">
+      </div>
+      <div class="form-group">
+         <label form="street">Post:</label>
+         <input type="text" id="street" class="form-control" data-ng-model="newProfile.post">
+      </div>         
+      <input type="submit" class="btn pull-right btn-primary btn-lg" value="Create">
+   </form>
+</div>  

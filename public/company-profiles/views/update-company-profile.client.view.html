@@ -1,0 +1,26 @@
+<div data-ng-if="menu.isVisible('updateCompanyProfile')" data-ng-controller='CompanyProfileController'>
+   <h2>Edit Company Profile</h2>
+   <form class="clearfix" data-ng-submit="editCompanyProfile(editProfile)"> 
+      <div class="form-group">
+         <label for="company-name">Company Name:</label>
+         <input type="text" id="company-name" class="form-control" data-ng-bind="editProfile.name">
+      </div>
+      <div class="form-group">
+         <label form="street">NIP</label>
+         <input type="text" id="nip" class="form-control" data-ng-bind="editProfile.nip">
+      </div>
+      <div class="form-group">
+         <label form="street">Street:</label>
+         <input type="text" id="street" class="form-control" data-ng-bind="editProfile.street">
+      </div>
+      <div class="form-group">
+         <label form="street">ZIP code</label>
+         <input type="text" id="street" class="form-control" data-ng-bind="editProfile.zip">
+      </div>
+      <div class="form-group">
+         <label form="street">Post:</label>
+         <input type="text" id="street" class="form-control" data-ng-bind="editProfile.post">
+      </div>         
+      <input type="submit" class="btn pull-right btn-primary btn-lg" value="Update">
+   </form>
+</div>  

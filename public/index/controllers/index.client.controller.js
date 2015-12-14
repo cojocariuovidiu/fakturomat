@@ -1,6 +1,7 @@
-angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'Authentication', function($scope, $cookies, $uibModal, Authentication){
+angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'Authentication', 'menu', function($scope, $cookies, $uibModal, Authentication, menu){
    $scope.navIsCollapsed = true;
    var NavController = this;
+   $scope.menu = menu;
    $scope.signupUser = {};
    $scope.signinUser = {};
    $scope.mainMessages = [];
@@ -21,7 +22,6 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
                         if(res.message){
                            $scope.mainMessages.push(res.message);
                         }
-                           console.log(res);
                      }, function(err){
                         if(err.message){
                            $scope.signinMessages.push(err.message);
@@ -52,7 +52,6 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
       
       Authentication.signout()
          .then(function(data){
-            console.log(data);
             delete $scope.user;
             $cookies.remove('user');
             if(data.message)

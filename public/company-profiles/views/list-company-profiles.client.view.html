@@ -1,0 +1,32 @@
+<div data-ng-if="menu.isVisible('listCompanyProfiles')" ng-controller="CompanyProfileController">
+   <h2>Company Profiles</h2>
+   <div data-ng-if="companyProfiles.length">
+      <table class="table table-striped table-hover">
+         <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>NIP</th>
+            <th>Street</th>
+            <th>ZIP code</th>
+            <th>Post</th>
+            <th>Settings</th>
+         </tr>
+         <tr data-ng-repeat="profile in companyProfiles">
+            <td data-ng-bind="$index + 1"></td>
+            <td data-ng-bind="profile.name"></td>
+            <td data-ng-bind="profile.nip"></td>
+            <td data-ng-bind="profile.street"></td>
+            <td data-ng-bind="profile.zip"></td>
+            <td data-ng-bind="profile.post"></td>
+            <td>
+               <span class="glyphicon glyphicon-pencil" data-ng-click="setEditProfile(profile); menu.setVisible('updateCompanyProfile')"></span>
+               <span class="glyphicon glyphicon-trash"></span>
+            </td>
+         </tr>
+      </table>
+   </div>
+   <div data-ng-if="!companyProfiles.length">
+      <p>Ooops! Seems like you didnt create any company profile yet. Would you like t ocreate one now?</p>
+      <button class="btn btn-success btn-lg" data-ng-click="menu.setVisible('createCompanyProfile')">Create Company Profile</button>
+   </div>
+</div>

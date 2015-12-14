@@ -4,6 +4,8 @@ app = angular.module(appName, [
       'ui.bootstrap',
       'ngAnimate',
       'ngCookies',
+      'dashboardNavigation',
+      'CompanyProfiles',
       'index',
       'messages',
       'ngResource'

@@ -4,7 +4,36 @@
       <p>Log in with social media account of your choice and you are good to go! Create customers profiles for repetative use, free for ever!</p>
    </div>
    <div data-ng-show="user" class="jumbotron">
-      <h1>Welcome in your dashboard.</h1>
-      <p>You are now authenticated, and you can start working on invoices.</p>
+      <div data-ng-if="menu.isVisible('default')">
+         <h1>Welcome in your dashboard</h1>
+         <p>You are now authenticated, and you can start working on invoices.</p>
+      </div>
+      <div data-ng-if="menu.isVisible('userSettings')">
+         <h2>User settings</h2>
+         <form>
+            <div class="form-group">
+               <label for="">Password</label>
+               <input type="password" id="password" class="form-control">
+            </div>
+            <div class="form-group">
+               <label form="password-2">Retype new password</label>
+               <input type="password" id="password-2" class="form-control">
+            </div>
+            <input type="submit" class="btn pull-right btn-primary">
+         </form>
+      </div>
+      
+      <data-ng-include src="'company-profiles/views/list-company-profiles.client.view.html'"></data-ng-include>
+      <data-ng-include src="'company-profiles/views/create-company-profile.client.view.html'"></data-ng-include>
+      <data-ng-include src="'company-profiles/views/update-company-profile.client.view.html'"></data-ng-include>
+
+      <div data-ng-if="menu.isVisible('createInvoice')">
+         <h1>Create invoice</h1>
+         <p>This is placeholder for invoice creating form.</p>
+      </div>
+      <div data-ng-if="menu.isVisible('listInvoices')">
+         <h1>Invoices</h1>
+         <p>This is placeholder for all invoices.</p>
+      </div>      
    </div>
 </div>

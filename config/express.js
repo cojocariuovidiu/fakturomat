@@ -18,6 +18,7 @@ module.exports = function(){
    }));
    //if(process.NODE_ENV === "development")
       app.use(morgan('dev'));
+   
    app.use(session({
       secret: config.sessionSecret,
       name: 'fakturomat',
@@ -31,6 +32,7 @@ module.exports = function(){
 
    require('../app/routes/index.server.routes')(app);
    require('../app/routes/users.server.routes')(app);
+   require('../app/routes/company-profiles.server.routes')(app);
 
    app.use(express.static('./public'));
    

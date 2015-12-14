@@ -36,6 +36,35 @@ exports.signup = function(req, res, next){
          }
       });
 };
+exports.signin = function(req, res, next){
+   passport.authenticate('local', function(err, user, info){
+      if(err)
+         return next(err);
+      if(!user)
+         return res.status(401).send({
+            message: {
+               type: 'danger',
+               content: 'Error! Authentication failed.'
+            }
+         });
+      else{
+         user.password = undefined; // client have no interest in having hashed password
+         req.logIn(user, function(err){
+            if(err)
+               return next(err);
+            else
+               return res.send({ 
+                  message: {
+                     type: 'success',
+                     content: 'You are logged in.'
+                  },
+                  user: user
+               });   
+         });
+         
+      }
+   })(req, res, next);
+};
 exports.listAll = function(req, res, next){
    if(req.user){
       User.find({}, function(err, data){
@@ -54,3 +83,12 @@ exports.listAll = function(req, res, next){
          messages: 'Unauthorized access.'
       });
 };
+exports.requiresLogin = function(req, res, next){
+   if(!req.isAuthenticated()){
+      console.log('user not authenticated');
+      return res.status(401).send({
+         message: "Please log in first"
+      });
+   }
+   next();
+}
