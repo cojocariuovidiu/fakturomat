@@ -4,7 +4,7 @@ angular.module('CompanyProfiles').controller('CompanyProfileController', ['$scop
    $rootScope.companyProfiles = [];
    $scope.setEditProfile = function(profile){
       $rootScope.editProfile = profile;
-      menu.setVisible('updateCompanyProfile');
+      menu.setVisible('updateCompanyProfile'); 
    }
    $scope.createCompanyProfile = function(){
       CompanyProfilesApi.createProfile($scope.newProfile)
