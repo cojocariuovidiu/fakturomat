@@ -90,5 +90,6 @@ exports.requiresLogin = function(req, res, next){
          message: "Please log in first"
       });
    }
+   console.log('User logged in, calling next()');
    next();
 }

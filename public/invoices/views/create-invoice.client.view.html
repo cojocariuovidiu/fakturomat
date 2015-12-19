@@ -1,0 +1,49 @@
+<!-- 
+   Required elements:
+   * date [default=today]
+   * nuber of invoice [default=nr/month/year]
+   * seller and buyer names
+   * seller and buyer nip
+   * name of product, quantity
+   * price per item, without VAT
+   * price for all items (price * quantity), without VAT
+   * tax rate
+   * summary price for all products, without VAT
+   * total price
+ -->
+ <div ng-show="menu.isVisible('createInvoice')" data-ng-controller="InvoicesController">
+    <form data-ng-submit="createInvoice()">
+      <h1>Create Invoice</h1>
+      <div class="row">
+         <div class="col-md-6">
+            <label for="invoice-no">Invoice no:</label>
+            <div class="form-group">
+               <input type="text" id="invoice-no" class="form-control" />
+            </div>
+         </div>
+         <div class="col-md-6">
+            <label for="date">Date:</label>
+            <div class="input-group">
+               <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="date" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" id="date"/>
+               <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+               </span>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-6">
+            <label>Select Profile Company</label>
+         </div>
+         <div class="col-md-6">
+            
+         </div>
+      </div>   
+         <div class="col-md-6"></div>
+         <div class="col-md-6"></div>
+         <div class="col-md-6"></div>
+         <div class="col-md-6"></div>
+         <div class="col-md-6"></div>
+         <div class="col-md-6"></div>
+    </form>
+ </div>

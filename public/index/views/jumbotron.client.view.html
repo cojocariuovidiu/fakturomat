@@ -22,15 +22,10 @@
             <input type="submit" class="btn pull-right btn-primary">
          </form>
       </div>
-      
+      <data-ng-include src="'invoices/views/create-invoice.client.view.html'"></data-ng-include>
       <data-ng-include src="'company-profiles/views/list-company-profiles.client.view.html'"></data-ng-include>
       <data-ng-include src="'company-profiles/views/create-company-profile.client.view.html'"></data-ng-include>
       <data-ng-include src="'company-profiles/views/update-company-profile.client.view.html'"></data-ng-include>
-
-      <div data-ng-if="menu.isVisible('createInvoice')">
-         <h1>Create invoice</h1>
-         <p>This is placeholder for invoice creating form.</p>
-      </div>
       <div data-ng-if="menu.isVisible('listInvoices')">
          <h1>Invoices</h1>
          <p>This is placeholder for all invoices.</p>

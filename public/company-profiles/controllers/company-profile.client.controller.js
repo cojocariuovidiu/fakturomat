@@ -1,10 +1,10 @@
 angular.module('CompanyProfiles').controller('CompanyProfileController', ['$scope', '$rootScope', 'CompanyProfilesApi', 'menu', function($scope, $rootScope, CompanyProfilesApi, menu){
    $scope.newProfile = {};
-   $rootScope.editProfile = {};
+   $rootScope.editProfile = {name: 'test'};
    $rootScope.companyProfiles = [];
    $scope.setEditProfile = function(profile){
-      console.log(profile);
       $rootScope.editProfile = profile;
+      menu.setVisible('updateCompanyProfile');
    }
    $scope.createCompanyProfile = function(){
       CompanyProfilesApi.createProfile($scope.newProfile)
@@ -38,7 +38,7 @@ angular.module('CompanyProfiles').controller('CompanyProfileController', ['$scop
          });
    };
    $scope.editCompanyProfile = function(profile){
-      CompanyProfilesApi.editProfile(profile)
+      CompanyProfilesApi.updateProfile(profile)
          .then(function(profile){
             menu.setVisible('listCompanyProfiles');
          }, function(error){
@@ -50,4 +50,21 @@ angular.module('CompanyProfiles').controller('CompanyProfileController', ['$scop
             });
          });
    };
+   $scope.deleteCompanyProfile = function(profile, index){
+      CompanyProfilesApi.deleteProfile(profile)
+         .then(function(profile){
+            $scope.mainMessages.unshift({
+               type: 'success',
+               content: 'Profile ' + profile.name + ' deleted'
+            });
+            $scope.companyProfiles.splice(index, 1)
+         }, function(error){
+            error.forEach(function(val){
+               $scope.mainMessages.unshift({
+                  type: val.type,
+                  content: val.message
+               });
+            });
+         });
+   }
 }]);

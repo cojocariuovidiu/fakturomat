@@ -6,6 +6,7 @@ app = angular.module(appName, [
       'ngCookies',
       'dashboardNavigation',
       'CompanyProfiles',
+      'Invoices',
       'index',
       'messages',
       'ngResource'
