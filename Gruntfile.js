@@ -1,7 +1,7 @@
 module.exports = function(grunt){
    grunt.initConfig({
       concat: {
-         dist: {
+         js: {
             src: ['public/lib/angular/angular.js',
                   'public/lib/angular-resource/angular-resource.js',
                   'public/lib/angular-route/angular-route.js',
@@ -12,6 +12,10 @@ module.exports = function(grunt){
                   'public/!(lib)/*.js', 
                   'public/!(lib)/**/**/*.js'],
             dest: 'public/app.concat.js'
+         },
+         css: {
+            src: ['public/!(lib)/**/css/*.css'],
+            dest: 'public/css/style.concat.css'
          }
       },
       uglify: {
@@ -21,7 +25,11 @@ module.exports = function(grunt){
          }
       },
       watch: {
-         files: ['public/application.js', 'public/!(lib)/**/*.js', 'public/!(lib)/**/**/*.js'],
+         files: [ 'public/application.js', 
+                  'public/!(lib)/**/*.js', 
+                  'public/!(lib)/**/**/*.js', 
+                  'public/!(lib)/**/*.js',
+                  'public/!(lib)/**/css/*.css'],
          tasks: ['concat', 'uglify']
       }
    });

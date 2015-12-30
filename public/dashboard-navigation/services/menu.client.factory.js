@@ -13,14 +13,13 @@ angular.module('dashboardNavigation').factory('menu', function(){
    return {
       isVisible: function(val){ 
          return states.hasOwnProperty(val) ? states[val] : false;
-      },
-      setVisible: function(val){ 
-         console.log('set visible called')
+      }, 
+      setVisible: function(val){
          if(states.hasOwnProperty(val)){
             for(var key in states){
                states[key] = key === val;
             }
          }
       }
-   }
+   };
 });

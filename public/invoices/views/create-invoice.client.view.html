@@ -12,7 +12,7 @@
    * total price
  -->
  <div ng-show="menu.isVisible('createInvoice')" data-ng-controller="InvoicesController">
-    <form data-ng-submit="createInvoice()">
+    <form>
       <h1>Create Invoice</h1>
       <div class="row">
          <div class="col-md-6">
@@ -31,12 +31,103 @@
             </div>
          </div>
       </div>
-      <div class="row">
+      <div class="row top-buffer-15">
          <div class="col-md-6">
-            <label>Select Profile Company</label>
+            <label data-ng-show="companyProfiles.length">Select Company Profile</label>
+            <div class="form-group" data-ng-show="companyProfiles.length">
+               <select data-ng-show="companyProfiles.length" class="form-control" data-ng-model="data.selectedCompanyId" data-ng-change="setActiveCompanyProfile(data.selectedCompanyId)" data-ng-options="company._id as company.name for company in companyProfiles">
+                  <option value="">Dont use any existing company profile</option>
+               </select>
+            </div>
+            <label>Company Name</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedCompanyProfile.name" class="form-control"/>
+            </div>
+            <label>Company Nip Number</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedCompanyProfile.nip" class="form-control"/>
+            </div>
+            <label>Company Street</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedCompanyProfile.street" class="form-control"/>
+            </div>
+            <label>Company Zip code</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedCompanyProfile.zip" class="form-control"/>
+            </div>
+            <label>Company Post</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedCompanyProfile.post" class="form-control"/>
+            </div>
          </div>
          <div class="col-md-6">
-            
+            <label data-ng-show="clientProfiles.length">Select Client Profile</label>
+            <div class="form-group" data-ng-show="clientProfile.length">
+               <select class="form-control" data-ng-model="data.selectedClientId" data-ng-change="setActiveClientProfile(data.selectedClientId)" data-ng-options="client._id as client.name for client in clientProfiles">
+                  <option value="">Dont use any existing client profile</option>
+               </select>
+            </div>
+            <label>Client Name</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedClientProfile.name" class="form-control"/>
+            </div>
+            <label>Client Nip Number</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedClientProfile.nip" class="form-control"/>
+            </div>
+            <label>Client Street</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedClientProfile.street" class="form-control"/>
+            </div>
+            <label>Client Zip code</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedClientProfile.zip" class="form-control"/>
+            </div>
+            <label>Client Post</label>
+            <div class="form-group">
+               <input type="text" data-ng-model="selectedClientProfile.post" class="form-control"/>
+            </div>            
+         </div>
+      </div>
+      <div class="row top-buffer-15">
+         <div class="container table-responsive">   
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th class="max-width-25 hidden-xs">#</th>
+                     <th class="min-width-100">Product</th>
+                     <th class="min-width-60 col-md-2">Qty</th>
+                     <th class="min-width-60 col-md-2">Net Price</th>
+                     <th class="min-width-90 col-md-2">VAT</th>
+                     <th class="min-width-100 col-md-2">Settings</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr data-ng-repeat="item in items">
+                     <td class="max-width-25 hidden-xs" data-ng-bind="$index + 1"></td>
+                     <td class="min-width-100" data-ng-bind="item.name"></td>
+                     <td class="min-width-60 col-md-2" data-ng-bind="item.qty"></td>
+                     <td class="min-width-60 col-md-2" data-ng-bind="item.netPrice + ' ' + item.currency"></td>
+                     <td class="min-width-90 col-md-2" data-ng-bind="item.vat | percent"></td>
+                     <td></td>
+                  </tr>
+                  <tr>
+                     <td class="max-width-25 hidden-xs">{{items.length + 1}}</th>
+                     <td><input data-ng-model="data.product.name" class="min-width-100 form-control" type="text"/></td>
+                     <td><input data-ng-model="data.product.qty" class="min-width-60 form-control" type="text"/></td>
+                     <td><input data-ng-model="data.product.netPrice" class="min-width-60 form-control" type="text"/></td>
+                     
+                     <td>
+                        <select class="form-control min-width-90" data-ng-model="data.product.vatRate" data-ng-init="data.product.vatRate = 0.23" data-ng-options="tax.val as tax.display for tax in vatRates">
+                        </select>
+                     </td>
+                     <td>
+                        <button class="btn btn-block btn-primary" data-ng-click="addProduct()">Add product</button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <button class="btn btn-block btn-lg btn-success pull-right" data-ng-click="createInvoice()">Create Invoice</button>
          </div>
       </div>   
          <div class="col-md-6"></div>
