@@ -17,7 +17,6 @@ angular.module('CompanyProfiles').service('CompanyProfilesApi', ['$resource', '$
    
    this.createProfile = function(profile){
       var deffered = $q.defer();
-      console.log(profile);
       profile = new Helper.createProfile(profile)
 
       profile.$save(function(response){
@@ -72,7 +71,7 @@ angular.module('CompanyProfiles').service('CompanyProfilesApi', ['$resource', '$
 
       var profiles = Helper.showProfiles;
       
-      Helper.showProfiles.query(function(response){
+      profiles.query(function(response){
          deffered.resolve(response);
       }, function(errorResponse){
          deffered.reject(errorResponse.data);

@@ -1,4 +1,4 @@
-angular.module('Invoices').controller('InvoicesController', ['$scope', 'menu', 'InvoiceValidator', function($scope, menu, InvoiceValidator){
+angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi){
    $scope.date = new Date();
    $scope.status = {
       opened: false
@@ -61,24 +61,72 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', 'menu', '
       $scope.items.push({
          name: $scope.data.product.name,
          qty: $scope.data.product.qty,
-         netPrice: parseFloat($scope.data.product.netPrice.replace(collonParser, '.').match(floatParser)[0], 10),
+         netPrice: parseFloat($scope.data.product.netPrice.replace(',', '.'), 10),
+         //netPrice: parseFloat(netPrice.replace(',', '.'), 10),
          vat: $scope.data.product.vatRate,
          currency: $scope.data.product.netPrice.match(currencyParser)[0]
       });
       $scope.data.product = deepCopy($scope.data.defaultProduct);
    }
    $scope.createInvoice = function(){
-      console.log('Creating invoice');
+      var invoice = {
+         invoiceNumber:    $scope.invoiceNumber,
+         date:             $scope.date,
+         companyName:      $scope.selectedCompanyProfile.name,
+         companyNipNumber: $scope.selectedCompanyProfile.nip,
+         companyStreet:    $scope.selectedCompanyProfile.street,
+         companyZip:       $scope.selectedCompanyProfile.zip,
+         companyPost:      $scope.selectedCompanyProfile.post,
+         clientName:       $scope.selectedClientProfile.name,
+         clientNip:        $scope.selectedClientProfile.nip,
+         clientStreet:     $scope.selectedClientProfile.street,
+         clientZip:        $scope.selectedClientProfile.zip,
+         clientPost:       $scope.selectedClientProfile.post,
+         items:            $scope.items, //passed by reference
+         totalValue:       0
+      }
+
       if(InvoiceValidator.areCurrenciesValid($scope.items)){
          $scope.items.forEach(function(val){
             console.log(val.netPrice);
             val.fullPrice = (val.netPrice * 100 + val.netPrice * 100 * val.vat) / 100;
          });
+
+         InvoicesApi.createInvoice(invoice)
+            .then(function(){
+               $scope.mainMessages.push({
+                  type: 'success',
+                  content: 'Invoice ' + invoice.invoiceNumber + ' has been created.'
+               })
+            }, function(errors){
+               errors.forEach(function(val){
+                  $scope.manMessages.push(val)
+               });
+            });
       }
    }
-   $scope.setActiveCompanyProfile(0); // initialization of company profile
+   //$scope.setActiveCompanyProfile(0); // initialization of company profile
    $scope.data.product = deepCopy($scope.data.defaultProduct); // initialization of default product
    $scope.open = function($event){
       $scope.status.opened = true;
+   }
+   $scope.loadInvoices = function(){
+      
+      InvoicesApi.loadInvoices()
+         .then(function(invoices){
+            invoices = invoices.map(function(invoice){
+               invoice.date = new Date(invoice.date);
+               return invoice;
+            })
+            $rootScope.invoices = invoices;
+            console.log($rootScope.invoices)
+            menu.setVisible('listInvoices');
+         }, function(errors){
+            console.log('Error')
+            $scope.mainMessages = errors.map(function(val){
+               return val.content = val.message;
+            })
+            $scope.invoices = [];
+         })
    }
 }]);

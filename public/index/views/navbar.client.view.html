@@ -14,7 +14,7 @@
             <li data-ng-hide="user"><a href="#/" data-ng-click="showForm(1)">Signup</a></li>
             <li data-ng-show="user"><a href="#/" data-ng-click="menu.setVisible('default')">Hello, {{user.firstName || user.username}}!</a></li>
             <li data-ng-show="user"><a href="#/" data-ng-click="menu.setVisible('createInvoice')">Create invoice</a></li>
-            <li data-ng-show="user"><a href="#/" data-ng-click="menu.setVisible('listInvoices')">Show invoices</a></li>
+            <li data-ng-controller="InvoicesController" data-ng-show="user"><a href="#/" data-ng-click="loadInvoices()">Show invoices</a></li>
             <li data-ng-controller="CompanyProfileController" data-ng-show="user"><a href="#/" data-ng-click="loadCompanyProfiles()">Company Profile</a></li>
             <li data-ng-show="user"><a href="#/" data-ng-click="logout()">Logout</a></li>
             <li><a href="#/">Contact</a></li>
