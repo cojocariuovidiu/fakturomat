@@ -24,6 +24,7 @@
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.1",
     "ejs": "^2.3.4",
+    "express": "^4.13.4",
     "express-session": "^1.12.1",
     "mongoose": "^4.2.7",
     "morgan": "^1.6.1",
