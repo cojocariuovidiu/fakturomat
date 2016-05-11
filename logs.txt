@@ -1,0 +1,102 @@
+2016-05-11T13:27:11.668175+00:00 app[web.1]: module.js:341
+2016-05-11T13:27:11.668180+00:00 app[web.1]: 
+2016-05-11T13:27:11.668181+00:00 app[web.1]: Error: Cannot find module './env/production.js'
+2016-05-11T13:27:11.668179+00:00 app[web.1]:     ^
+2016-05-11T13:27:11.668183+00:00 app[web.1]:     at Function.Module._load (module.js:290:25)
+2016-05-11T13:27:11.668185+00:00 app[web.1]:     at Object.<anonymous> (/app/config/config.js:1:80)
+2016-05-11T13:27:11.668182+00:00 app[web.1]:     at Function.Module._resolveFilename (module.js:339:15)
+2016-05-11T13:27:11.676401+00:00 app[web.1]: npm ERR! Linux 3.13.0-85-generic
+2016-05-11T13:27:11.668184+00:00 app[web.1]:     at require (internal/module.js:20:19)
+2016-05-11T13:27:11.668194+00:00 app[web.1]: 
+2016-05-11T13:27:11.677659+00:00 app[web.1]: npm ERR! argv "/app/.heroku/node/bin/node" "/app/.heroku/node/bin/npm" "start"
+2016-05-11T13:27:11.668184+00:00 app[web.1]:     at Module.require (module.js:367:17)
+2016-05-11T13:27:11.677667+00:00 app[web.1]: npm ERR! node v5.11.1
+2016-05-11T13:27:11.680122+00:00 app[web.1]: npm ERR! npm  v3.8.6
+2016-05-11T13:27:11.680129+00:00 app[web.1]: npm ERR! code ELIFECYCLE
+2016-05-11T13:27:11.680130+00:00 app[web.1]: npm ERR! fakturomat@0.0.1 start: `node server.js`
+2016-05-11T13:27:11.680132+00:00 app[web.1]: npm ERR! 
+2016-05-11T13:27:11.680131+00:00 app[web.1]: npm ERR! Exit status 1
+2016-05-11T13:27:11.668185+00:00 app[web.1]:     at Module._compile (module.js:413:34)
+2016-05-11T13:27:11.668186+00:00 app[web.1]:     at Object.Module._extensions..js (module.js:422:10)
+2016-05-11T13:27:11.680133+00:00 app[web.1]: npm ERR! Failed at the fakturomat@0.0.1 start script 'node server.js'.
+2016-05-11T13:27:11.680133+00:00 app[web.1]: npm ERR! Make sure you have the latest version of node.js and npm installed.
+2016-05-11T13:27:11.668187+00:00 app[web.1]:     at Module.load (module.js:357:32)
+2016-05-11T13:27:11.680134+00:00 app[web.1]: npm ERR! If you do, this is most likely a problem with the fakturomat package,
+2016-05-11T13:27:11.668187+00:00 app[web.1]:     at Function.Module._load (module.js:314:12)
+2016-05-11T13:27:11.668188+00:00 app[web.1]:     at Module.require (module.js:367:17)
+2016-05-11T13:27:11.680135+00:00 app[web.1]: npm ERR! not with npm itself.
+2016-05-11T13:27:11.680136+00:00 app[web.1]: npm ERR!     node server.js
+2016-05-11T13:27:11.680137+00:00 app[web.1]: npm ERR! You can get information on how to open an issue for this project with:
+2016-05-11T13:27:11.680137+00:00 app[web.1]: npm ERR!     npm bugs fakturomat
+2016-05-11T13:27:11.680135+00:00 app[web.1]: npm ERR! Tell the author that this fails on your system:
+2016-05-11T13:27:11.680138+00:00 app[web.1]: npm ERR! Or if that isn't available, you can get their info via:
+2016-05-11T13:27:11.680139+00:00 app[web.1]: npm ERR!     npm owner ls fakturomat
+2016-05-11T13:27:11.680139+00:00 app[web.1]: npm ERR! There is likely additional logging output above.
+2016-05-11T13:27:11.684612+00:00 app[web.1]: 
+2016-05-11T13:27:11.684848+00:00 app[web.1]: npm ERR! Please include the following file with any support request:
+2016-05-11T13:27:11.685169+00:00 app[web.1]: npm ERR!     /app/npm-debug.log
+2016-05-11T13:27:12.756103+00:00 heroku[web.1]: Process exited with status 1
+2016-05-11T13:27:12.736429+00:00 heroku[web.1]: State changed from starting to crashed
+2016-05-11T13:27:24.178116+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=quiet-sea-38588.herokuapp.com request_id=5acc9283-2853-4216-aa59-6aba7159a20a fwd="5.173.26.202" dyno= connect= service= status=503 bytes=
+2016-05-11T13:27:24.885362+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=quiet-sea-38588.herokuapp.com request_id=0f1c303b-6c90-4498-88da-fb3033982b03 fwd="5.173.26.202" dyno= connect= service= status=503 bytes=
+2016-05-11T13:28:41.382699+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=quiet-sea-38588.herokuapp.com request_id=3d4fdfdd-bf07-4da3-b495-34791858aa54 fwd="5.173.26.202" dyno= connect= service= status=503 bytes=
+2016-05-11T13:28:42.511961+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=quiet-sea-38588.herokuapp.com request_id=f94eb675-569a-497f-8311-a81436ed886e fwd="5.173.26.202" dyno= connect= service= status=503 bytes=
+2016-05-11T13:34:01.794609+00:00 heroku[slug-compiler]: Slug compilation started
+2016-05-11T13:34:01.794654+00:00 heroku[slug-compiler]: Slug compilation finished
+2016-05-11T13:34:01.737210+00:00 heroku[web.1]: State changed from crashed to starting
+2016-05-11T13:34:01.514515+00:00 heroku[api]: Deploy c379a19 by mateush53@o2.pl
+2016-05-11T13:34:01.514515+00:00 heroku[api]: Release v4 created by mateush53@o2.pl
+2016-05-11T13:34:05.673858+00:00 heroku[web.1]: Starting process with command `npm start`
+2016-05-11T13:34:09.314129+00:00 app[web.1]: 
+2016-05-11T13:34:09.314147+00:00 app[web.1]: > fakturomat@0.0.1 start /app
+2016-05-11T13:34:09.314150+00:00 app[web.1]: > node server.js
+2016-05-11T13:34:09.314151+00:00 app[web.1]: 
+2016-05-11T13:34:10.251397+00:00 app[web.1]: module.js:341
+2016-05-11T13:34:10.251412+00:00 app[web.1]: Error: Cannot find module 'express'
+2016-05-11T13:34:10.251414+00:00 app[web.1]:     at Function.Module._resolveFilename (module.js:339:15)
+2016-05-11T13:34:10.251416+00:00 app[web.1]:     at Module.require (module.js:367:17)
+2016-05-11T13:34:10.251410+00:00 app[web.1]:     throw err;
+2016-05-11T13:34:10.251410+00:00 app[web.1]:     ^
+2016-05-11T13:34:10.251411+00:00 app[web.1]: 
+2016-05-11T13:34:10.251417+00:00 app[web.1]:     at Object.<anonymous> (/app/config/express.js:3:11)
+2016-05-11T13:34:10.251415+00:00 app[web.1]:     at Function.Module._load (module.js:290:25)
+2016-05-11T13:34:10.251418+00:00 app[web.1]:     at Object.Module._extensions..js (module.js:422:10)
+2016-05-11T13:34:10.251418+00:00 app[web.1]:     at Module._compile (module.js:413:34)
+2016-05-11T13:34:10.251416+00:00 app[web.1]:     at require (internal/module.js:20:19)
+2016-05-11T13:34:10.251423+00:00 app[web.1]:     at Module.load (module.js:357:32)
+2016-05-11T13:34:10.251422+00:00 app[web.1]:     at Module._compile (module.js:413:34)
+2016-05-11T13:34:10.251420+00:00 app[web.1]:     at Module.require (module.js:367:17)
+2016-05-11T13:34:10.251421+00:00 app[web.1]:     at Object.<anonymous> (/app/server.js:4:11)
+2016-05-11T13:34:10.364369+00:00 app[web.1]: npm ERR! argv "/app/.heroku/node/bin/node" "/app/.heroku/node/bin/npm" "start"
+2016-05-11T13:34:10.251422+00:00 app[web.1]:     at Object.Module._extensions..js (module.js:422:10)
+2016-05-11T13:34:10.371306+00:00 app[web.1]: npm ERR! 
+2016-05-11T13:34:10.251423+00:00 app[web.1]:     at Function.Module._load (module.js:314:12)
+2016-05-11T13:34:10.365910+00:00 app[web.1]: npm ERR! Exit status 1
+2016-05-11T13:34:10.365544+00:00 app[web.1]: npm ERR! code ELIFECYCLE
+2016-05-11T13:34:10.363888+00:00 app[web.1]: npm ERR! Linux 3.13.0-79-generic
+2016-05-11T13:34:10.372208+00:00 app[web.1]: npm ERR! Failed at the fakturomat@0.0.1 start script 'node server.js'.
+2016-05-11T13:34:10.375226+00:00 app[web.1]: npm ERR!     npm bugs fakturomat
+2016-05-11T13:34:10.375490+00:00 app[web.1]: npm ERR! Or if that isn't available, you can get their info via:
+2016-05-11T13:34:10.374862+00:00 app[web.1]: npm ERR! You can get information on how to open an issue for this project with:
+2016-05-11T13:34:10.374281+00:00 app[web.1]: npm ERR! Tell the author that this fails on your system:
+2016-05-11T13:34:10.364696+00:00 app[web.1]: npm ERR! node v5.11.1
+2016-05-11T13:34:10.365294+00:00 app[web.1]: npm ERR! npm  v3.8.6
+2016-05-11T13:34:10.382258+00:00 app[web.1]: npm ERR! Please include the following file with any support request:
+2016-05-11T13:34:10.374571+00:00 app[web.1]: npm ERR!     node server.js
+2016-05-11T13:34:10.375982+00:00 app[web.1]: npm ERR! There is likely additional logging output above.
+2016-05-11T13:34:10.375749+00:00 app[web.1]: npm ERR!     npm owner ls fakturomat
+2016-05-11T13:34:10.251419+00:00 app[web.1]:     at Module.load (module.js:357:32)
+2016-05-11T13:34:10.293540+00:00 app[web.1]: 
+2016-05-11T13:34:10.373932+00:00 app[web.1]: npm ERR! not with npm itself.
+2016-05-11T13:34:10.381958+00:00 app[web.1]: 
+2016-05-11T13:34:10.382450+00:00 app[web.1]: npm ERR!     /app/npm-debug.log
+2016-05-11T13:34:10.373656+00:00 app[web.1]: npm ERR! If you do, this is most likely a problem with the fakturomat package,
+2016-05-11T13:34:10.251419+00:00 app[web.1]:     at Function.Module._load (module.js:314:12)
+2016-05-11T13:34:10.373361+00:00 app[web.1]: npm ERR! Make sure you have the latest version of node.js and npm installed.
+2016-05-11T13:34:10.251420+00:00 app[web.1]:     at require (internal/module.js:20:19)
+2016-05-11T13:34:10.365743+00:00 app[web.1]: npm ERR! fakturomat@0.0.1 start: `node server.js`
+2016-05-11T13:34:11.476897+00:00 heroku[web.1]: Process exited with status 1
+2016-05-11T13:34:11.524115+00:00 heroku[web.1]: State changed from starting to crashed
+2016-05-11T13:34:12.968745+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=quiet-sea-38588.herokuapp.com request_id=500edf0f-bde2-4551-bf3c-c76c263b5c6a fwd="5.173.26.202" dyno= connect= service= status=503 bytes=
+2016-05-11T13:34:13.421868+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=quiet-sea-38588.herokuapp.com request_id=5a20d067-bd84-4c78-a47b-7f12a27ad93b fwd="5.173.26.202" dyno= connect= service= status=503 bytes=
+Terminate batch job (Y/N)? 
