@@ -1,4 +1,4 @@
-var port = 1234,
+var port = process.env.PORT || 1234,
   domain = 'http://localhost';
 
 module.exports = {
