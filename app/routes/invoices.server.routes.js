@@ -6,4 +6,9 @@ module.exports = function(app){
       .post(users.requiresLogin, invoices.create);
    app.route('/api/invoices')
       .get(users.requiresLogin, invoices.list);
+
+   app.route('/api/invoice/:invoiceId')
+      .get(users.requiresLogin, invoices.hasAuthorization, invoices.generatePDF)
+
+   app.param('invoiceId', invoices.invoiceByID);
 }

@@ -8,7 +8,6 @@ exports.create = function(req, res){
 
    companyProfile.save(function(err){ 
       if(err){
-            console.log(err);
             return res.status(400).send(getErrorMessages(err));
          }
       else
@@ -65,7 +64,7 @@ exports.profileByID = function(req, res, next, id){
       if(err)
          return next(err);
       if(!companyProfile)
-         return next(new Error('Faile to load company profile ' + id));
+         return next(new Error('Failed to load company profile ' + id));
 
       req.companyProfile = companyProfile;
       next();
