@@ -19,7 +19,7 @@
                <td data-ng-bind="$index + 1"></td>
                <td data-ng-bind="invoice.invoiceNumber"></td>
                <td data-ng-bind="invoice.date | date:'dd/MM/yyyy'"></td>
-               <td><a data-ng-href="{{invoice._id}}"><i class="glyphicon glyphicon-save"></i></a></td>
+               <td><a data-ng-href="api/invoice/{{invoice._id}}"><i class="glyphicon glyphicon-save"></i></a></td>
             </tr>
          </tbody>
       </table>
