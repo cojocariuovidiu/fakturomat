@@ -86,9 +86,10 @@ exports.listAll = function(req, res, next){
 exports.requiresLogin = function(req, res, next){
    if(!req.isAuthenticated()){
       console.log('user not authenticated');
-      return res.status(401).send({
+
+      return res.status(401).send([{
          message: "Please log in first"
-      });
+      }]);
    }
    console.log('User logged in, calling next()');
    next();

@@ -6,47 +6,47 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
    $scope.signinUser = {};
    $scope.mainMessages = [];
    $scope.signupMessages = [];
-   $scope.signinMessages = []
+   $scope.signinMessages = [];
    var user = $cookies.getObject('user');
    $scope.user = user ? user : null;
    this.tabs = [
-            {
-               title: 'Signin',
-               active: false,
-               contentUrl: 'index/views/signin-form.client.view.html',
-               processForm: function(){
-                  return Authentication.signin($scope.signinUser).then(function(res){
-                        $scope.user = res.user;
-                        $cookies.putObject('user', res.user);
-                        $scope.closeForm();
-                        if(res.message){
-                           $scope.mainMessages.push(res.message);
-                        }
-                     }, function(err){
-                        if(err.message){
-                           $scope.signinMessages.push(err.message);
-                        }
-                           console.log(err);
-                     });
-               }
-            },
-            {
-               title: 'Signup',
-               active: false,
-               contentUrl: 'index/views/signup-form.client.view.html',
-               processForm: function(){
-                  return Authentication.signup($scope.signupUser).then(function(res){
-                        $scope.user = res.user;
-                        $cookies.putObject('user', res);
-                        $scope.closeForm();
-                        if(res.message)
-                           $scopme.mainMessages.push(res.messages);
-                     }, function(err){
-                        if(err.message)
-                           $scope.signupMessages.push(err.message);
-                     });
-               }
-            }
+      {
+         title: 'Signin',
+         active: false,
+         contentUrl: 'index/views/signin-form.client.view.html',
+         processForm: function(){
+            return Authentication.signin($scope.signinUser).then(function(res){
+                  $scope.user = res.user;
+                  $cookies.putObject('user', res.user);
+                  $scope.closeForm();
+                  if(res.message){
+                     $scope.mainMessages.push(res.message);
+                  }
+               }, function(err){
+                  if(err.message){
+                     $scope.signinMessages.push(err.message);
+                  }
+                     console.log(err);
+               });
+         }
+      },
+      {
+         title: 'Signup',
+         active: false,
+         contentUrl: 'index/views/signup-form.client.view.html',
+         processForm: function(){
+            return Authentication.signup($scope.signupUser).then(function(res){
+                  $scope.user = res.user;
+                  $cookies.putObject('user', res);
+                  $scope.closeForm();
+                  if(res.message)
+                     $scopme.mainMessages.push(res.messages);
+               }, function(err){
+                  if(err.message)
+                     $scope.signupMessages.push(err.message);
+               });
+         }
+      }
    ];
    $scope.logout = function(){
       

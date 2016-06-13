@@ -1,4 +1,4 @@
-angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi){
+angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', 'Authentication', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi, Authentication){
    $scope.date = new Date();
    $scope.status = {
       opened: false
@@ -111,7 +111,6 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
       $scope.status.opened = true;
    }
    $scope.loadInvoices = function(){
-      
       InvoicesApi.loadInvoices()
          .then(function(invoices){
             invoices = invoices.map(function(invoice){
@@ -122,7 +121,13 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
             console.log($rootScope.invoices)
             menu.setVisible('listInvoices');
          }, function(errors){
-            console.log('Error')
+            function authErrorFilter(obj) {
+               return obj.message === "Please log in first";
+            }
+
+            if(errors.filter(authErrorFilter).length) {
+               $scope.logout();
+            }
             $scope.mainMessages = errors.map(function(val){
                return val.content = val.message;
             })

@@ -43665,47 +43665,47 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
    $scope.signinUser = {};
    $scope.mainMessages = [];
    $scope.signupMessages = [];
-   $scope.signinMessages = []
+   $scope.signinMessages = [];
    var user = $cookies.getObject('user');
    $scope.user = user ? user : null;
    this.tabs = [
-            {
-               title: 'Signin',
-               active: false,
-               contentUrl: 'index/views/signin-form.client.view.html',
-               processForm: function(){
-                  return Authentication.signin($scope.signinUser).then(function(res){
-                        $scope.user = res.user;
-                        $cookies.putObject('user', res.user);
-                        $scope.closeForm();
-                        if(res.message){
-                           $scope.mainMessages.push(res.message);
-                        }
-                     }, function(err){
-                        if(err.message){
-                           $scope.signinMessages.push(err.message);
-                        }
-                           console.log(err);
-                     });
-               }
-            },
-            {
-               title: 'Signup',
-               active: false,
-               contentUrl: 'index/views/signup-form.client.view.html',
-               processForm: function(){
-                  return Authentication.signup($scope.signupUser).then(function(res){
-                        $scope.user = res.user;
-                        $cookies.putObject('user', res);
-                        $scope.closeForm();
-                        if(res.message)
-                           $scopme.mainMessages.push(res.messages);
-                     }, function(err){
-                        if(err.message)
-                           $scope.signupMessages.push(err.message);
-                     });
-               }
-            }
+      {
+         title: 'Signin',
+         active: false,
+         contentUrl: 'index/views/signin-form.client.view.html',
+         processForm: function(){
+            return Authentication.signin($scope.signinUser).then(function(res){
+                  $scope.user = res.user;
+                  $cookies.putObject('user', res.user);
+                  $scope.closeForm();
+                  if(res.message){
+                     $scope.mainMessages.push(res.message);
+                  }
+               }, function(err){
+                  if(err.message){
+                     $scope.signinMessages.push(err.message);
+                  }
+                     console.log(err);
+               });
+         }
+      },
+      {
+         title: 'Signup',
+         active: false,
+         contentUrl: 'index/views/signup-form.client.view.html',
+         processForm: function(){
+            return Authentication.signup($scope.signupUser).then(function(res){
+                  $scope.user = res.user;
+                  $cookies.putObject('user', res);
+                  $scope.closeForm();
+                  if(res.message)
+                     $scopme.mainMessages.push(res.messages);
+               }, function(err){
+                  if(err.message)
+                     $scope.signupMessages.push(err.message);
+               });
+         }
+      }
    ];
    $scope.logout = function(){
       
@@ -43766,6 +43766,13 @@ angular.module('index').directive('navbar', function(){
       controllerAs: 'navCtrl'
    };
 });
+angular.module('index').factory('AuthApi', ['$resource', function($resource){
+   return {
+      signin: $resource('api/signin/'),
+      signup: $resource('api/users/'),
+      signout: $resource('api/signout/')
+   }
+}]);
 angular.module('index').service('Authentication', ['AuthApi', '$q', function(AuthApi, $q){
    this.signup = function(user){
       user = user || {};
@@ -43816,14 +43823,7 @@ angular.module('index').service('Authentication', ['AuthApi', '$q', function(Aut
       return deffered.promise;
    }
 }]);
-angular.module('index').factory('AuthApi', ['$resource', function($resource){
-   return {
-      signin: $resource('api/signin/'),
-      signup: $resource('api/users/'),
-      signout: $resource('api/signout/')
-   }
-}]);
-angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi){
+angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', 'Authentication', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi, Authentication){
    $scope.date = new Date();
    $scope.status = {
       opened: false
@@ -43936,7 +43936,6 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
       $scope.status.opened = true;
    }
    $scope.loadInvoices = function(){
-      
       InvoicesApi.loadInvoices()
          .then(function(invoices){
             invoices = invoices.map(function(invoice){
@@ -43947,7 +43946,13 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
             console.log($rootScope.invoices)
             menu.setVisible('listInvoices');
          }, function(errors){
-            console.log('Error')
+            function authErrorFilter(obj) {
+               return obj.message === "Please log in first";
+            }
+
+            if(errors.filter(authErrorFilter).length) {
+               $scope.logout();
+            }
             $scope.mainMessages = errors.map(function(val){
                return val.content = val.message;
             })
@@ -44020,6 +44025,7 @@ angular.module('messages').controller('MessagesController', ['$scope', function(
       $scope.variable.splice(index, 1);
    };
 }]);
+
 angular.module('messages').directive('messages', function(){
    return {
       restrict: 'E',
