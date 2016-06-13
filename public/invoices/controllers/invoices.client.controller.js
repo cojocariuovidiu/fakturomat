@@ -1,4 +1,4 @@
-angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', 'Authentication', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi, Authentication){
+angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', 'authentication', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi, Authentication){
    $scope.date = new Date();
    $scope.status = {
       opened: false
@@ -10,15 +10,6 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
          netPrice: '100$',
          vatRate: 0.23
       }
-   };
-   var deepCopy = function(obj){
-      var result = {};
-
-      for(prop in obj){
-         result[prop] = obj[prop];
-      }
-
-      return result;
    };
    $scope.items = [];
    $scope.vatRates = [
@@ -66,7 +57,7 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
          vat: $scope.data.product.vatRate,
          currency: $scope.data.product.netPrice.match(currencyParser)[0]
       });
-      $scope.data.product = deepCopy($scope.data.defaultProduct);
+      $scope.data.product = angular.copy($scope.data.defaultProduct);
    }
    $scope.createInvoice = function(){
       var invoice = {
@@ -105,8 +96,7 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
             });
       }
    }
-   //$scope.setActiveCompanyProfile(0); // initialization of company profile
-   $scope.data.product = deepCopy($scope.data.defaultProduct); // initialization of default product
+   $scope.data.product = angular.copy($scope.data.defaultProduct);
    $scope.open = function($event){
       $scope.status.opened = true;
    }
