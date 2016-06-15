@@ -1,4 +1,4 @@
-angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'Authentication', 'menu', function($scope, $cookies, $uibModal, Authentication, menu){
+angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'authentication', 'menu', 'authHelper', function($scope, $cookies, $uibModal, authentication, menu, authHelper){
    $scope.navIsCollapsed = true;
    var NavController = this;
    $scope.menu = menu;
@@ -7,63 +7,37 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
    $scope.mainMessages = [];
    $scope.signupMessages = [];
    $scope.signinMessages = [];
-   var user = $cookies.getObject('user');
-   $scope.user = user ? user : null;
+
+   $scope.user = authentication.getUser();
+   $scope.logout = authentication.signout;
+
+   $scope.$on('user changed', function(event, user) {
+      $scope.user = user;
+      
+      if($scope.closeForm) {
+         $scope.closeForm();
+      }
+   });
+
    this.tabs = [
       {
          title: 'Signin',
          active: false,
          contentUrl: 'index/views/signin-form.client.view.html',
          processForm: function(){
-            return Authentication.signin($scope.signinUser).then(function(res){
-                  $scope.user = res.user;
-                  $cookies.putObject('user', res.user);
-                  $scope.closeForm();
-                  if(res.message){
-                     $scope.mainMessages.push(res.message);
-                  }
-               }, function(err){
-                  if(err.message){
-                     $scope.signinMessages.push(err.message);
-                  }
-                     console.log(err);
-               });
+            authentication.signin($scope.signinUser);
          }
       },
       {
          title: 'Signup',
          active: false,
          contentUrl: 'index/views/signup-form.client.view.html',
-         processForm: function(){
-            return Authentication.signup($scope.signupUser).then(function(res){
-                  $scope.user = res.user;
-                  $cookies.putObject('user', res);
-                  $scope.closeForm();
-                  if(res.message)
-                     $scopme.mainMessages.push(res.messages);
-               }, function(err){
-                  if(err.message)
-                     $scope.signupMessages.push(err.message);
-               });
+         processForm: function() {
+            $scope.user = authentication.signup($scope.signupUser);
          }
       }
    ];
-   $scope.logout = function(){
-      
-      Authentication.signout()
-         .then(function(data){
-            delete $scope.user;
-            $cookies.remove('user');
-            if(data.message)
-               $scope.mainMessages.push(data.message);
-         }, function(err){
-            delete $scope.user;
-            $cookies.remove('user');
-            console.log(err);
-            if(err.message)
-               $scope.mainMessages.push(err.message);
-         });
-   }
+
    this.getCurrentTab = function(){
       var result = this.tabs.filter(function(val){
          return val.active;

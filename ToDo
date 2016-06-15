@@ -4,3 +4,8 @@
 4# Settings:
    a) Company profile
    b) User acocunt settings
+
+
+
+Technical debt:
+- instant logout on unauthorized attemp

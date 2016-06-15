@@ -1,4 +1,4 @@
-angular.module('index').factory('AuthApi', ['$resource', function($resource){
+angular.module('Users').factory('authApi', ['$resource', function($resource){
    return {
       signin: $resource('api/signin/'),
       signup: $resource('api/users/'),

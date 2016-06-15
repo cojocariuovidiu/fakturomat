@@ -4,5 +4,5 @@ module.exports = function(app){
       .post('/api/users', users.signup)
       .get('/api/users', users.listAll) //only for development! its security risk
       .post('/api/signin', users.signin)
-      .post('/api/signout', users.signout);
+      .get('/api/signout', users.signout);
 };

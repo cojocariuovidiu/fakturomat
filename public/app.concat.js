@@ -43469,8 +43469,9 @@ angular.element(document).ready(function(){
 angular.module('CompanyProfiles', ['dashboardNavigation']);
 angular.module('dashboardNavigation', []);
 angular.module('index', []);
-angular.module('Invoices', []);
+angular.module('Invoices', ['Users']);
 angular.module('messages', []);
+angular.module('Users', []);
 angular.module('CompanyProfiles').controller('CompanyProfileController', ['$scope', '$rootScope', 'CompanyProfilesApi', 'menu', function($scope, $rootScope, CompanyProfilesApi, menu){
    $scope.newProfile = {};
    $rootScope.editProfile = {name: 'test'};
@@ -43657,7 +43658,7 @@ angular.module('index').config(['$routeProvider', function($routeProvider){
          redirectTo: '/'
       });
 }]);
-angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'Authentication', 'menu', function($scope, $cookies, $uibModal, Authentication, menu){
+angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'authentication', 'menu', 'authHelper', function($scope, $cookies, $uibModal, authentication, menu, authHelper){
    $scope.navIsCollapsed = true;
    var NavController = this;
    $scope.menu = menu;
@@ -43666,63 +43667,37 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
    $scope.mainMessages = [];
    $scope.signupMessages = [];
    $scope.signinMessages = [];
-   var user = $cookies.getObject('user');
-   $scope.user = user ? user : null;
+
+   $scope.user = authentication.getUser();
+   $scope.logout = authentication.signout;
+
+   $scope.$on('user changed', function(event, user) {
+      $scope.user = user;
+      
+      if($scope.closeForm) {
+         $scope.closeForm();
+      }
+   });
+
    this.tabs = [
       {
          title: 'Signin',
          active: false,
          contentUrl: 'index/views/signin-form.client.view.html',
          processForm: function(){
-            return Authentication.signin($scope.signinUser).then(function(res){
-                  $scope.user = res.user;
-                  $cookies.putObject('user', res.user);
-                  $scope.closeForm();
-                  if(res.message){
-                     $scope.mainMessages.push(res.message);
-                  }
-               }, function(err){
-                  if(err.message){
-                     $scope.signinMessages.push(err.message);
-                  }
-                     console.log(err);
-               });
+            authentication.signin($scope.signinUser);
          }
       },
       {
          title: 'Signup',
          active: false,
          contentUrl: 'index/views/signup-form.client.view.html',
-         processForm: function(){
-            return Authentication.signup($scope.signupUser).then(function(res){
-                  $scope.user = res.user;
-                  $cookies.putObject('user', res);
-                  $scope.closeForm();
-                  if(res.message)
-                     $scopme.mainMessages.push(res.messages);
-               }, function(err){
-                  if(err.message)
-                     $scope.signupMessages.push(err.message);
-               });
+         processForm: function() {
+            $scope.user = authentication.signup($scope.signupUser);
          }
       }
    ];
-   $scope.logout = function(){
-      
-      Authentication.signout()
-         .then(function(data){
-            delete $scope.user;
-            $cookies.remove('user');
-            if(data.message)
-               $scope.mainMessages.push(data.message);
-         }, function(err){
-            delete $scope.user;
-            $cookies.remove('user');
-            console.log(err);
-            if(err.message)
-               $scope.mainMessages.push(err.message);
-         });
-   }
+
    this.getCurrentTab = function(){
       var result = this.tabs.filter(function(val){
          return val.active;
@@ -43766,64 +43741,7 @@ angular.module('index').directive('navbar', function(){
       controllerAs: 'navCtrl'
    };
 });
-angular.module('index').factory('AuthApi', ['$resource', function($resource){
-   return {
-      signin: $resource('api/signin/'),
-      signup: $resource('api/users/'),
-      signout: $resource('api/signout/')
-   }
-}]);
-angular.module('index').service('Authentication', ['AuthApi', '$q', function(AuthApi, $q){
-   this.signup = function(user){
-      user = user || {};
-      user.firstName = user.firstName || "";
-      user.lastName = user.lastName || "";
-      user.fullName = user.fullName || (user.firstName + " " + user.lastName).trim();
-      user.email = user.email || "";
-      user.provider = "local";
-
-      user = new AuthApi.signup(user);
-
-      var deffered = $q.defer();
-
-      user.$save(function(response){
-         deffered.resolve(user);
-      }, function(errorResponse){
-         deffered.reject(errorResponse.data);
-      });
-
-      return deffered.promise;
-   };
-   this.signin = function(user){
-      user = user || {};
-      user.username = user.username || '';
-      user.password = user.password || '';
-
-      user = new AuthApi.signin(user);
-
-      var deffered = $q.defer();
-
-      user.$save(function(response){
-         deffered.resolve(user);
-      }, function(errorResponse){
-         deffered.reject(errorResponse.data);
-      });
-      return deffered.promise;
-   }
-   this.signout = function(){
-      var user = new AuthApi.signout(),
-      deffered = $q.defer();
-
-      user.$save(function(response){
-         deffered.resolve(response)
-      }, function(err){
-         deffered.reject(err.data);
-      });
-
-      return deffered.promise;
-   }
-}]);
-angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', 'Authentication', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi, Authentication){
+angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'authHelper', 'InvoiceValidator', 'InvoicesApi', 'authentication', function($scope, $rootScope, menu, authHelper, InvoiceValidator, InvoicesApi, Authentication){
    $scope.date = new Date();
    $scope.status = {
       opened: false
@@ -43836,15 +43754,7 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
          vatRate: 0.23
       }
    };
-   var deepCopy = function(obj){
-      var result = {};
-
-      for(prop in obj){
-         result[prop] = obj[prop];
-      }
-
-      return result;
-   };
+   $scope.logout = authHelper.logout;
    $scope.items = [];
    $scope.vatRates = [
       { val: 0, display: "0%"},
@@ -43891,7 +43801,7 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
          vat: $scope.data.product.vatRate,
          currency: $scope.data.product.netPrice.match(currencyParser)[0]
       });
-      $scope.data.product = deepCopy($scope.data.defaultProduct);
+      $scope.data.product = angular.copy($scope.data.defaultProduct);
    }
    $scope.createInvoice = function(){
       var invoice = {
@@ -43930,8 +43840,7 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
             });
       }
    }
-   //$scope.setActiveCompanyProfile(0); // initialization of company profile
-   $scope.data.product = deepCopy($scope.data.defaultProduct); // initialization of default product
+   $scope.data.product = angular.copy($scope.data.defaultProduct);
    $scope.open = function($event){
       $scope.status.opened = true;
    }
@@ -44036,3 +43945,138 @@ angular.module('messages').directive('messages', function(){
       templateUrl: 'messages/views/messages.client.view.html'
    };
 })
+angular.module('Users').factory('authApi', ['$resource', function($resource){
+   return {
+      signin: $resource('api/signin/'),
+      signup: $resource('api/users/'),
+      signout: $resource('api/signout/')
+   }
+}]);
+angular.module('Users').factory('authentication', ['authApi', '$q', '$cookies', '$rootScope', function(AuthApi, $q, $cookies, $rootScope){
+   var service = {},
+   storedUser = $cookies.getObject('User') || null;
+
+   function signup(user) {
+      user = user || {};
+      user.firstName = user.firstName || "";
+      user.lastName = user.lastName || "";
+      user.fullName = user.fullName || (user.firstName + " " + user.lastName).trim();
+      user.email = user.email || "";
+      user.provider = "local";
+
+      user = new AuthApi.signup(user);
+
+      var deffered = $q.defer();
+
+      user.$save(function(response){
+         deffered.resolve(user);
+      }, function(errorResponse){
+         deffered.reject(errorResponse.data);
+      });
+
+      return deffered.promise;     
+   }
+
+   function signin(user) {
+      user = user || {};
+      user.username = user.username || '';
+      user.password = user.password || '';
+
+      user = new AuthApi.signin(user);
+
+      var deffered = $q.defer();
+
+      user.$save(function(response){
+         deffered.resolve(user);
+      }, function(errorResponse){
+         deffered.reject(errorResponse.data);
+      });
+      return deffered.promise;
+   }
+
+   function signout(){
+      var user = new AuthApi.signout(),
+      deffered = $q.defer();
+
+      user.$get(function(response){
+         deffered.resolve(response)
+      }, function(err){
+         deffered.reject(err.data);
+      });
+
+      return deffered.promise;
+   }
+
+   service.getUser = function() {
+      return storedUser;
+   }
+   service.setUser = function(user) {
+      storedUser = angular.copy(user);
+      user ? $cookies.putObject('User', user) : $cookies.remove('User');
+      $rootScope.$broadcast('user changed', user);
+      return this;
+   }
+
+
+   service.signup = function(user){
+      // this === service
+      var _this = this;
+      signup(user)
+      .then(function() {
+         return _this
+            .setUser(user)
+            .getUser();
+      })
+      .catch(function(error) {
+         // error holds error responses
+         // Messages should have their own module
+      });
+   };
+   service.signin = function(user){
+      var _this = this;
+      signin(user)
+      .then(function() {
+         service
+            .setUser(user)
+            .getUser();
+
+         $rootScope.$broadcast('user changed', user);
+      })
+      .catch(function(errors) {
+         //placeholder for messages directive
+      })
+   }
+   service.signout = function(user) {
+      signout()
+      .then(function() {
+         user = service
+            .setUser()
+            .getUser();
+         $rootScope.$broadcast('user changed', user)
+      })
+   }
+
+   return service;
+}]);
+angular.module('Users').factory('authHelper', ['authentication', '$cookies', function(authentication, $cookies) {
+   var service = {};
+
+   service.logout = function(user, messages){
+      authentication.signout()
+      .then(function(data){
+         if(data.message && messages)
+            messages.push(data.message);
+      })
+      .catch(function(error) {
+         if(err.message && messages)
+            messages.push(err.message)
+      })
+      .finally(function() {
+         console.log('Finally block');
+         user = null;
+         $cookies.remove('user');
+      });
+   }
+
+   return service;
+}]);

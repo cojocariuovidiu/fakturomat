@@ -1,1 +1,1 @@
-angular.module('Invoices', []);
+angular.module('Invoices', ['Users']);
