@@ -1,2 +1,4 @@
+public/app.concat.js
+public/app.min.js
 node_modules
 config/env/development.js
