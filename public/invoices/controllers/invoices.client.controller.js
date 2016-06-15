@@ -1,4 +1,4 @@
-angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'authHelper', 'InvoiceValidator', 'InvoicesApi', 'authentication', function($scope, $rootScope, menu, authHelper, InvoiceValidator, InvoicesApi, Authentication){
+angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', 'authentication', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi, Authentication){
    $scope.date = new Date();
    $scope.status = {
       opened: false
@@ -11,7 +11,6 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
          vatRate: 0.23
       }
    };
-   $scope.logout = authHelper.logout;
    $scope.items = [];
    $scope.vatRates = [
       { val: 0, display: "0%"},

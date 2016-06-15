@@ -1,4 +1,4 @@
-angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'authentication', 'menu', 'authHelper', function($scope, $cookies, $uibModal, authentication, menu, authHelper){
+angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'authentication', 'menu', function($scope, $cookies, $uibModal, authentication, menu){
    $scope.navIsCollapsed = true;
    var NavController = this;
    $scope.menu = menu;
