@@ -8,6 +8,7 @@ module.exports = function(grunt){
                   'public/lib/angular-animate/angular-animate.js',
                   'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
                   'public/lib/angular-cookies/angular-cookies.js',
+                  'public/lib/angular-uuid-service/angular-uuid-service.js',
                   'public/application.js', 
                   'public/!(lib)/*.js', 
                   'public/!(lib)/**/**/*.js'],
