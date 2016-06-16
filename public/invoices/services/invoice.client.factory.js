@@ -1,6 +1,20 @@
-angular.module('Invoices').factory('invoicesHandler', ['invoicesApi', '$rootScope', 'menu', 'authentication', function(invoicesApi, $rootScope, menu, authentication){
+angular
+.module('Invoices')
+.factory('invoicesHandler', [
+   'invoicesApi', 
+   '$rootScope',
+   'menu', 
+   'authentication', 
+   'messagesHandler', 
+   function(
+   invoicesApi, 
+   $rootScope, 
+   menu, 
+   authentication, 
+   messagesHandler){
+
    var service = {}, i, n, firstCurrency;
-   console.log('invoices Handler!');
+
    service.areCurrenciesValid = function(items){
       if(typeof items !== "object" || !(items instanceof Array) || items.length === 0)
          return false;
@@ -35,7 +49,18 @@ angular.module('Invoices').factory('invoicesHandler', ['invoicesApi', '$rootScop
          if(errors.filter(authErrorFilter).length) {
             authentication.signout();
          }
-         // send error to message module
+         errors = errors.map(function(error) {
+            return {
+               type: error.type,
+               content: error.content,
+               container: 'main'
+            }
+         });
+         // idea - just set the messages array? Why spam user with multiple messages here?
+         errors.forEach(function(errorMessage) {
+            messagesHandler
+               .addMessage(errorMessage);
+         });
       });
    }
 

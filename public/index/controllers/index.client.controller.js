@@ -1,4 +1,18 @@
-angular.module('index').controller('FakturomatController', ['$scope', '$cookies', '$uibModal', 'authentication', 'menu', function($scope, $cookies, $uibModal, authentication, menu){
+angular
+.module('index')
+.controller('FakturomatController', [
+   '$scope', 
+   '$cookies', 
+   '$uibModal', 
+   'authentication',
+   'messagesHandler',
+   'menu', function(
+   $scope, 
+   $cookies, 
+   $uibModal, 
+   authentication,
+   messagesHandler,
+   menu){
    $scope.navIsCollapsed = true;
    var NavController = this;
    $scope.menu = menu;
@@ -7,7 +21,17 @@ angular.module('index').controller('FakturomatController', ['$scope', '$cookies'
    $scope.mainMessages = [];
    $scope.signupMessages = [];
    $scope.signinMessages = [];
-
+   $scope.$on('messages changed', function(event, messages) {
+      $scope.mainMessages = messages.filter(function(msg) {
+         return msg.container === "main";
+      });
+      $scope.signinMessages = messages.filter(function(msg) {
+         return msg.container === "signin";
+      });
+      $scope.signupMessages = messages.filter(function(msg) {
+         return msg.container === "signup";
+      });
+   });
    $scope.user = authentication.getUser();
    $scope.logout = authentication.signout;
 

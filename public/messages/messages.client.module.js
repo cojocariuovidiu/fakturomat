@@ -1,1 +1,1 @@
-angular.module('messages', []);
+angular.module('messages', ['uuid']);

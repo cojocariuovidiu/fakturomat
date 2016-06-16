@@ -100,6 +100,9 @@ angular.module('Users').factory('authentication', ['authApi', '$q', '$cookies', 
             .getUser();
          $rootScope.$broadcast('user changed', user)
       })
+      .catch(function(errors) {
+         
+      })
    }
 
    return service;
