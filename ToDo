@@ -5,7 +5,8 @@
    a) Company profile
    b) User acocunt settings
 
-
+Refactor
+   Create message module
 
 Technical debt:
 - instant logout on unauthorized attemp

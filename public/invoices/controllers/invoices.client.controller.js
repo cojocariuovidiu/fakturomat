@@ -1,4 +1,19 @@
-angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootScope', 'menu', 'InvoiceValidator', 'InvoicesApi', 'authentication', function($scope, $rootScope, menu, InvoiceValidator, InvoicesApi, Authentication){
+angular
+   .module('Invoices')
+   .controller('InvoicesController', [
+      '$scope', 
+      '$rootScope', 
+      'menu', 
+      'invoicesHandler', 
+      'authentication', 
+      function(
+         $scope, 
+         $rootScope, 
+         menu, 
+         invoicesHandler, 
+         authentication
+         ) {
+
    $scope.date = new Date();
    $scope.status = {
       opened: false
@@ -59,69 +74,10 @@ angular.module('Invoices').controller('InvoicesController', ['$scope', '$rootSco
       });
       $scope.data.product = angular.copy($scope.data.defaultProduct);
    }
-   $scope.createInvoice = function(){
-      var invoice = {
-         invoiceNumber:    $scope.invoiceNumber,
-         date:             $scope.date,
-         companyName:      $scope.selectedCompanyProfile.name,
-         companyNipNumber: $scope.selectedCompanyProfile.nip,
-         companyStreet:    $scope.selectedCompanyProfile.street,
-         companyZip:       $scope.selectedCompanyProfile.zip,
-         companyPost:      $scope.selectedCompanyProfile.post,
-         clientName:       $scope.selectedClientProfile.name,
-         clientNip:        $scope.selectedClientProfile.nip,
-         clientStreet:     $scope.selectedClientProfile.street,
-         clientZip:        $scope.selectedClientProfile.zip,
-         clientPost:       $scope.selectedClientProfile.post,
-         items:            $scope.items, //passed by reference
-         totalValue:       0
-      }
-
-      if(InvoiceValidator.areCurrenciesValid($scope.items)){
-         $scope.items.forEach(function(val){
-            console.log(val.netPrice);
-            val.fullPrice = (val.netPrice * 100 + val.netPrice * 100 * val.vat) / 100;
-         });
-
-         InvoicesApi.createInvoice(invoice)
-            .then(function(){
-               $scope.mainMessages.push({
-                  type: 'success',
-                  content: 'Invoice ' + invoice.invoiceNumber + ' has been created.'
-               })
-            }, function(errors){
-               errors.forEach(function(val){
-                  $scope.manMessages.push(val)
-               });
-            });
-      }
-   }
+   $scope.createInvoice = invoicesHandler.createInvoice;
    $scope.data.product = angular.copy($scope.data.defaultProduct);
    $scope.open = function($event){
       $scope.status.opened = true;
    }
-   $scope.loadInvoices = function(){
-      InvoicesApi.loadInvoices()
-         .then(function(invoices){
-            invoices = invoices.map(function(invoice){
-               invoice.date = new Date(invoice.date);
-               return invoice;
-            })
-            $rootScope.invoices = invoices;
-            console.log($rootScope.invoices)
-            menu.setVisible('listInvoices');
-         }, function(errors){
-            function authErrorFilter(obj) {
-               return obj.message === "Please log in first";
-            }
-
-            if(errors.filter(authErrorFilter).length) {
-               $scope.logout();
-            }
-            $scope.mainMessages = errors.map(function(val){
-               return val.content = val.message;
-            })
-            $scope.invoices = [];
-         })
-   }
+   $scope.loadInvoices = invoicesHandler.loadInvoices;
 }]);

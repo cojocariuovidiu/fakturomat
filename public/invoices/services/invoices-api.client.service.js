@@ -1,4 +1,4 @@
-angular.module('Invoices').service('InvoicesApi', ['$resource', '$q', function($resource, $q){
+angular.module('Invoices').service('invoicesApi', ['$resource', '$q', function($resource, $q){
    var Helper = {
       createInvoice: $resource('/api/invoice'),
       listInvoices: $resource('/api/invoices'),
